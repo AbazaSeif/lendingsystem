@@ -420,7 +420,18 @@ public function inbox() {
 			                        }
 			                        else
 			                        {
-			                                $error_message = "Server responded with a $result message";
+			                        	$result = $client->call('sendSMS', array(
+											'uName' => 's85qb1stk',
+											'uPin' => '21737167',
+											'MSISDN' => '0'.substr($outgoing->number,-10),
+											'messageString' => $outgoing->message,
+											'Display' => '1', // 1 for normal message
+											'udh' => '',
+											'mwi' => '',
+											'coding' => '0' ),
+											"http://ESCPlatform/xsd");
+
+			                                // $error_message = "Server responded with a $result message";
 			                        }
 			                }
 			        }
