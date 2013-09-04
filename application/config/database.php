@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'live';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -64,9 +64,9 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['live']['hostname'] = 'lendingsys.db.10433376.hostedresource.com';
-$db['live']['username'] = 'lendingsys';
-$db['live']['password'] = 'p9nura4e3q!Q';
+$db['live']['hostname'] = 'tunnel.pagodabox.com:3306';
+$db['live']['username'] = 'lissette';
+$db['live']['password'] = '3iHaqe90';
 $db['live']['database'] = 'lendingsys';
 $db['live']['dbdriver'] = 'mysql';
 $db['live']['dbprefix'] = '';
