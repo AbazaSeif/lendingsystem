@@ -51,7 +51,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 2",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message2
+							'value' => $settings->message2
 						); ?>
 						<?php echo form_label('SMS message 2:','message2'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -68,7 +68,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 3",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message3
+							'value' => $settings->message3
 						); ?>
 						<?php echo form_label('SMS message 3:','message3'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -83,7 +83,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 4",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message4
+							'value' => $settings->message4
 						); ?>
 						<?php echo form_label('SMS message 4:','message4'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -100,7 +100,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 5",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message5
+							'value' => $settings->message5
 						); ?>
 						<?php echo form_label('SMS message 5:','message5'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -115,7 +115,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 6",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message6
+							'value' => $settings->message6
 						); ?>
 						<?php echo form_label('SMS message 6:','message6'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -132,7 +132,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 7",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message7
+							'value' => $settings->message7
 						); ?>
 						<?php echo form_label('SMS message 7:','message7'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -147,7 +147,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 8",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message8
+							'value' => $settings->message8
 						); ?>
 						<?php echo form_label('SMS message 8:','message8'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -164,7 +164,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 9",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message9
+							'value' => $settings->message9
 						); ?>
 						<?php echo form_label('SMS message 9:','message9'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -179,7 +179,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 10",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message10
+							'value' => $settings->message10
 						); ?>
 						<?php echo form_label('SMS message 10:','message10'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -196,7 +196,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 11",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message11
+							'value' => $settings->message11
 						); ?>
 						<?php echo form_label('SMS message 11:','message11'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -211,7 +211,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 12",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message12
+							'value' => $settings->message12
 						); ?>
 						<?php echo form_label('SMS message 12:','message12'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -228,7 +228,7 @@
 							'rows' => 5,
 							'placeholder' => "Message 13",
 							'data-placement' => 'bottom',
-							'value' => $settings[0]->message13
+							'value' => $settings->message13
 						); ?>
 						<?php echo form_label('SMS message 13:','message13'); ?>
 						<?php echo form_textarea($ta); ?>
@@ -242,19 +242,19 @@
 			<div class="tab-pane" id="rates">
 				<?php echo form_label('Loan Interest:','interest'); ?>
 				<div class="input-append">
-				  <?php echo form_input('commision',$settings[0]->interest,'placeholder="Interest" id="appendedInput" class="input-mini"'); ?>
+				  <?php echo form_input('commision',$settings->interest,'placeholder="Interest" id="appendedInput" class="input-mini"'); ?>
 				  <span class="add-on">%</span>
 				</div>
 
 				<?php echo form_label('Agents Commision:','commision'); ?>
 				<div class="input-append">
-				  <?php echo form_input('commision',$settings[0]->commision,'placeholder="Commision" id="appendedInput" class="input-mini"'); ?>
+				  <?php echo form_input('commision',$settings->commision,'placeholder="Commision" id="appendedInput" class="input-mini"'); ?>
 				  <span class="add-on">%</span>
 				</div>
 
 				<?php echo form_label('Penalty:','penalty'); ?>
 				<div class="input-append">
-				  <?php echo form_input('penalty',$settings[0]->penalty,'placeholder="Penalty" id="appendedInput" class="input-mini"'); ?>
+				  <?php echo form_input('penalty',$settings->penalty,'placeholder="Penalty" id="appendedInput" class="input-mini"'); ?>
 				  <span class="add-on">.00</span>
 				</div>
 			</div>
