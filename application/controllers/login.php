@@ -425,7 +425,7 @@ public function inbox() {
 			                }
 			        }
 			}// end if
-			$this->sms_model->delete($outgoing->id);
+			// $this->sms_model->delete($outgoing->id);
 		}
 	}
 
