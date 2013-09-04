@@ -7,7 +7,6 @@ class Borrowers extends CI_Controller {
 		if($this->session->userdata('usertype')!== 32) {
             redirect('login');
         }
-        $this->gateway();
 	}
 
 	
@@ -42,9 +41,7 @@ class Borrowers extends CI_Controller {
 				'coding' => '0' ),
 				"http://ESCPlatform/xsd");
 
-			echo '<pre>';
-		 	var_dump($result);
-		 	echo '</pre>';
+			
 			// Check for a fault
 			        if ($client->fault)
 			        {
@@ -71,8 +68,7 @@ class Borrowers extends CI_Controller {
 			                }
 			        }
 			}// end if
-			// $this->sms_model->delete($outgoing->id);
-			echo $error_message;
+			$this->sms_model->delete($outgoing->id);
 		}
 	}
 
