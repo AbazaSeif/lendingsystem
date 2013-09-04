@@ -164,7 +164,7 @@ class Borrowers extends CI_Controller {
 		}
 
 		$settings = $this->settings_model->get_all();
-		$data['settings'] = $settings[0];
+		$data['settings'] = $settings;
 		$data['loans'] = $this->loans_model->get_all_loans();
 		$data['title'] = "Add Payment";
 		$this->load->view('templates/header_view');
@@ -200,7 +200,7 @@ class Borrowers extends CI_Controller {
 			$this->borrowers_model->add_borrower($db);
 
 			$settings = $this->settings_model->get_all();
-			$message = $settings[0]->message1;
+			$message = $settings->message1;
 			$this->sms_model->send($message, $this->input->post('contact'));
 			redirect('borrowers');
 
@@ -228,7 +228,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('sms_model');
 		$this->load->model('settings_model');
 		$inte = $this->settings_model->get_all();
-		$interest = $inte[0]->interest;
+		$interest = $inte->interest;
 		$this->form_validation->set_rules('amount','Amount','required');
 
 		if($this->form_validation->run() !== FALSE) {
@@ -249,7 +249,7 @@ class Borrowers extends CI_Controller {
 
 			$borrower = $this->borrowers_model->get_borrower( $this->input->post('borrower') );
 			$mess = $this->settings_model->get_all();
-			$message = $mess[0]->message10;
+			$message = $mess->message10;
 			$number = $borrower[0]->contact;
 			$this->sms_model->send($message,$number);
 			redirect('borrowers');
@@ -415,7 +415,7 @@ class Borrowers extends CI_Controller {
 						}
 						else {
 							$settings = $this->settings_model->get_all();
-							$message = $settings[0]->message11;
+							$message = $settings->message11;
 						}
 
 						$this->sms_model->send($message, $msg->number);
@@ -424,7 +424,7 @@ class Borrowers extends CI_Controller {
 					}
 					else if($keyword == "HELP") {
 						$settings = $this->settings_model->get_all();
-						$message = $settings[0]->message13;
+						$message = $settings->message13;
 
 						$this->sms_model->send($message, $msg->number);
 						$this->sms_model->delete($msg->id);
@@ -464,7 +464,7 @@ class Borrowers extends CI_Controller {
 
 							$this->borrowers_model->add_borrower($db);
 							$settings = $this->settings_model->get_all();
-							$message = $settings[0]->message7;
+							$message = $settings->message7;
 							$this->sms_model->send($message, $msg->number);
 							$message = "You are successfully registered by agent ".$agent[0]->lastname.". Contact your agent for questions about your account. (".$agent[0]->contact.")";
 							$this->sms_model->send($message, $contact);
@@ -484,7 +484,7 @@ class Borrowers extends CI_Controller {
 							$amount = $amm[1];
 							
 							
-							$interest = $getAll[0]->interest;
+							$interest = $getAll->interest;
 							$db = array(
 								'amount' => $amount,
 								'borrowerid' => $borrowersid,
@@ -501,10 +501,10 @@ class Borrowers extends CI_Controller {
 							$this->borrowers_model->update_status($borrowersid,$status);
 
 							$settings = $this->settings_model->get_all();
-							$message = $settings[0]->message8;
+							$message = $settings->message8;
 							$this->sms_model->send($message, $msg->number);
 							$borrower = $this->borrowers_model->get_borrower($borrowersid);
-							$message = $getAll[0]->message10;
+							$message = $getAll->message10;
 							$this->sms_model->send($message, $borrower[0]->contact);
 							$this->pending_model->delete_pending($pending[0]->id);
 							$this->sms_model->delete($msg->id);
@@ -542,20 +542,20 @@ class Borrowers extends CI_Controller {
 
 							$brw = $this->borrowers_model->get_borrower($id);
 							$borrower = $brw[0];
-							$message = $settings[0]->message12;
+							$message = $settings->message12;
 							$number = $borrower->contact;
 							$this->sms_model->send($message, $number);
 
 						}
 						
-						$message = $settings[0]->message9;
+						$message = $settings->message9;
 						$number = $msg->number;
 						$this->sms_model->send($message,$number);
 						$this->sms_model->delete($msg->id);
 						}
 						else {
 						$settings = $this->settings_model->get_all();
-						$message = $settings[0]->message5;
+						$message = $settings->message5;
 						$this->sms_model->send($message, $msg->number);
 						$this->sms_model->delete($msg->id);
 						}
@@ -573,7 +573,7 @@ class Borrowers extends CI_Controller {
 						
 
 						$settings = $this->settings_model->get_all();
-						$message = $settings[0]->message6;
+						$message = $settings->message6;
 						$this->sms_model->send($message, $msg->number);
 						$this->sms_model->delete($msg->id);
 					}
@@ -597,7 +597,7 @@ class Borrowers extends CI_Controller {
 					}
 					else {
 						$settings = $this->settings_model->get_all();
-						$message = $settings[0]->message4;
+						$message = $settings->message4;
 						$this->sms_model->send($message, $msg->number);
 						$this->sms_model->delete($msg->id);
 					}
@@ -605,7 +605,7 @@ class Borrowers extends CI_Controller {
 			// Invalid Number or Confirmation code
 				else {
 					$settings = $this->settings_model->get_all();
-					$message = $settings[0]->message3;
+					$message = $settings->message3;
 					$this->sms_model->send($message, $msg->number);
 					$this->sms_model->delete($msg->id);
 				}

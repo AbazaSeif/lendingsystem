@@ -171,7 +171,7 @@ public function inbox() {
 						}
 						else {
 							$settings = $this->settings_model->get_all();
-							$message = $settings[0]->message11;
+							$message = $settings->message11;
 						}
 
 						$this->sms_model->send($message, $msg->number);
@@ -180,7 +180,7 @@ public function inbox() {
 					}
 					else if($keyword == "HELP") {
 						$settings = $this->settings_model->get_all();
-						$message = $settings[0]->message13;
+						$message = $settings->message13;
 
 						$this->sms_model->send($message, $msg->number);
 						$this->sms_model->delete($msg->id);
@@ -220,7 +220,7 @@ public function inbox() {
 
 							$this->borrowers_model->add_borrower($db);
 							$settings = $this->settings_model->get_all();
-							$message = $settings[0]->message7;
+							$message = $settings->message7;
 							$this->sms_model->send($message, $msg->number);
 							$message = "You are successfully registered by agent ".$agent[0]->lastname.". Contact your agent for questions about your account. (".$agent[0]->contact.")";
 							$this->sms_model->send($message, $contact);

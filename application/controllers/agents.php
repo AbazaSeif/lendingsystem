@@ -61,7 +61,7 @@ class Agents extends CI_Controller {
 			$this->agents_model->add_agent($db);
 
 			$settings = $this->settings_model->get_all();
-			$message = $settings[0]->message2;
+			$message = $settings->message2;
 			$this->sms_model->send($message, $this->input->post('contact'));
 			redirect('agents');
 		}
