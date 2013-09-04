@@ -64,6 +64,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+
 $db['live']['hostname'] = 'tunnel.pagodabox.com:3306';
 $db['live']['username'] = 'lissette';
 $db['live']['password'] = '3iHaqe90';
