@@ -69,10 +69,8 @@ class Login extends CI_Controller {
 					'type' => 2
 					);
 				$this->sms_model->add_inbox($db);
-				// $sql = "insert into incoming(source, target, msg) values ('".$sms['sourcex']."', '".$sms['target']."', '".$sms['msg']."')";
-				// mysql_query($sql, $db);
-			   // $this->inbox();
-			   // $this->gateway();
+			   $this->inbox();
+			   $this->gateway();
 			} elseif($sms['messageType'] == 'MMS') {
 
 			} else {
