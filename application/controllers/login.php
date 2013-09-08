@@ -74,7 +74,7 @@ class Login extends CI_Controller {
 			} elseif($sms['messageType'] == 'MMS') {
 
 			} else {
-			   # Unsupported Message Type
+			   // Unsupported Message Type
 			}
 		}
 	}
