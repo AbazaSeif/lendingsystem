@@ -113,7 +113,7 @@
 						<?php echo $loan->id; ?>
 					</td>
 					<td>
-						<?php echo $loan->borrowerid; ?>
+						<?php echo $loan->blastname; ?>, <?php echo $loan->bfirstname; ?>, <?php echo $loan->bmiddlename; ?>
 					</td>
 					<td>
 						<b>P</b><?php echo $loan->amount; ?>

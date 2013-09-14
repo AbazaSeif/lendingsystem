@@ -2,7 +2,13 @@
 class Borrowers_model extends CI_Model {
 
 	function get_borrowers() {
-		$query = $this->db->get('borrowers');
+		$select = array(
+			'borrowers.*',
+			'agents.lastname AS alastname',
+			'agents.firstname AS afirstname',
+			'agents.middlename AS amiddlename'
+			);
+		$query = $this->db->select($select)->join('agents', 'borrowers.agentid = agents.id','left')->get('borrowers');
 
 		if($query->num_rows() > 0 ) {
 			return $query->result();
@@ -32,7 +38,13 @@ class Borrowers_model extends CI_Model {
 	}
 
 	function get_borrower($id) {
-		$query = $this->db->where('id', $id)->limit(1)->get('borrowers');
+		$select = array(
+			'borrowers.*',
+			'agents.lastname AS alastname',
+			'agents.firstname AS afirstname',
+			'agents.middlename AS amiddlename'
+			);
+		$query = $this->db->select($select)->where('borrowers.id', $id)->limit(1)->join('agents', 'borrowers.agentid = agents.id','left')->get('borrowers');
 
 		if($query->num_rows() > 0) {
 			return $query->result();
@@ -47,7 +59,13 @@ class Borrowers_model extends CI_Model {
 	}
 
 	function get_able_borrowers() {
-		$query = $this->db->where('status', 0)->get('borrowers');
+		$select = array(
+			'borrowers.*',
+			'agents.lastname AS alastname',
+			'agents.firstname AS afirstname',
+			'agents.middlename AS amiddlename'
+			);
+		$query = $this->db->select($select)->where('borrowers.status', 0)->join('agents', 'borrowers.agentid = agents.id','left')->get('borrowers');
 
 		if($query->num_rows() > 0) {
 			return $query->result();
@@ -69,8 +87,16 @@ class Borrowers_model extends CI_Model {
 	}
 
 	function search_borrowers($search_by, $search_key) {
+		$select = array(
+			'borrowers.*',
+			'agents.lastname AS alastname',
+			'agents.firstname AS afirstname',
+			'agents.middlename AS amiddlename'
+			);
 		$query = $this->db
-			->where($search_by, $search_key)
+			->select($select)
+			->where('borrowers.'.$search_by, $search_key)
+			->join('agents', 'borrowers.agentid = agents.id','left')
 			->get('borrowers');
 
 		if($query->num_rows() > 0) {

@@ -14,7 +14,6 @@
 | path to your installation.
 |
 */
-// $config['base_url']	= 'http://naturalartph.com/lendingsys/';
 $config['base_url'] = '';
 
 /*

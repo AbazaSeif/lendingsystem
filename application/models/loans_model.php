@@ -7,7 +7,13 @@ class Loans_model extends CI_Model {
 	}
 	
 	function get_loans($id) {
-		$query = $this->db->where('borrowerid', $id)->get('loans');
+		$select = array(
+			'loans.*',
+			'borrowers.lastname AS blastname',
+			'borrowers.firstname AS bfirstname',
+			'borrowers.middlename AS bmiddlename'
+			);
+		$query = $this->db->select($select)->where('loans.borrowerid', $id)->join('borrowers', 'borrowers.id = loans.borrowerid','left')->get('loans');
 
 		if($query->num_rows() > 0) {
 			return $query->result();
@@ -51,7 +57,13 @@ class Loans_model extends CI_Model {
 	}
 
 	function get_all_loans() {
-		$query = $this->db->get('loans');
+		$select = array(
+			'loans.*',
+			'borrowers.lastname AS blastname',
+			'borrowers.firstname AS bfirstname',
+			'borrowers.middlename AS bmiddlename'
+			);
+		$query = $this->db->select($select)->join('borrowers', 'borrowers.id = loans.borrowerid','left')->get('loans');
 
 		if($query->num_rows() > 0) {
 			return $query->result();

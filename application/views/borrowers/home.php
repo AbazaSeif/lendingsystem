@@ -185,7 +185,7 @@
 							<b><?php echo $row->id ;?></b>
 						</td>
 						<td>
-							<b><?php echo $row->agentid; ?></b>
+							<?php echo $row->alastname; ?>, <?php echo $row->afirstname; ?> <?php echo $row->amiddlename; ?>
 						</td>
 						<td>
 							<?php echo $row->lastname; ?>,  
@@ -249,7 +249,7 @@
 							<b><?php echo $row->id; ?></b>
 						</td>
 						<td>
-							<b><?php echo $row->borrowerid;?></b>
+							<?php echo $row->blastname; ?>, <?php echo $row->bfirstname; ?>
 						</td>
 						<td>
 							<b>P</b><?php echo $row->amount; ?>

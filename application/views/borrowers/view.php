@@ -32,6 +32,13 @@
 					</td>
 					<?php endif; ?>
 				</tr>
+				<?php if(isset($borrower[0]->alastname)): ?>
+				<tr>
+					<td>
+						<h4><small>Agent:</small> <?php echo $borrower[0]->alastname; ?>, <?php echo $borrower[0]->afirstname; ?>, <?php echo $borrower[0]->amiddlename; ?></h4>
+					</td>
+				</tr>
+				<?php endif; ?>
 			</table>
 			<?php if($activeloan): ?>
 			<table class="table table-bordered table-hover">
