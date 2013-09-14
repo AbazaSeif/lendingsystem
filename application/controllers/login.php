@@ -93,7 +93,7 @@ public function inbox() {
 		if($messages) {
 			foreach($messages as $msg) {
 				$kw = explode(" ", $msg->message);
-				$keyword = $kw[0];
+				$keyword = strtoupper($kw[0]);
 				$borrower = $this->borrowers_model->check_number($msg->number);
 				$agent = $this->agents_model->check_number($msg->number);
 			//Valid Number
