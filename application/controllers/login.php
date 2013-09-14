@@ -26,7 +26,11 @@ class Login extends CI_Controller {
 				$sessiondata = array(
                 	'username' => $this->input->post('username'),
                 	'usertype' => 32,
-                	'userID' => $verify->id
+                	'userID' => $verify->id,
+                	'borrowers' => $verify->borrowers,
+                	'agents' => $verify->agents,
+                	'settings' => $verify->settings,
+                	'users' => $verify->users
 				);
 				$this->session->set_userdata($sessiondata);
 				redirect('home');
