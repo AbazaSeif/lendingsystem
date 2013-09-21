@@ -463,8 +463,8 @@ public function inbox() {
 
 		if (1 == 1) {// Call the SOAP method, note the definition of the xmlnamespace as the third parameter in the call and how the posted message is added to the message string
 			$result = $client->call('sendSMS', array(
-				'uName' => 'so9mcfhyp',
-				'uPin' => '21737147',
+				'uName' => '4pcf414hq',
+				'uPin' => '21738474',
 				'MSISDN' => '0'.substr($outgoing->number,-10),
 				'messageString' => $outgoing->message,
 				'Display' => '1', // 1 for normal message
@@ -495,18 +495,18 @@ public function inbox() {
 			                        }
 			                        else
 			                        {
-			                        	$result = $client->call('sendSMS', array(
-											'uName' => 's85qb1stk',
-											'uPin' => '21737167',
-											'MSISDN' => '0'.substr($outgoing->number,-10),
-											'messageString' => $outgoing->message,
-											'Display' => '1', // 1 for normal message
-											'udh' => '',
-											'mwi' => '',
-											'coding' => '0' ),
-											"http://ESCPlatform/xsd");
+			        //                 	$result = $client->call('sendSMS', array(
+											// 'uName' => 's85qb1stk',
+											// 'uPin' => '21737167',
+											// 'MSISDN' => '0'.substr($outgoing->number,-10),
+											// 'messageString' => $outgoing->message,
+											// 'Display' => '1', // 1 for normal message
+											// 'udh' => '',
+											// 'mwi' => '',
+											// 'coding' => '0' ),
+											// "http://ESCPlatform/xsd");
 
-			                                // $error_message = "Server responded with a $result message";
+			                                $error_message = "Server responded with a $result message";
 			                        }
 			                }
 			        }
