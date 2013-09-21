@@ -115,7 +115,7 @@ class Login extends CI_Controller {
 		}
 
 		//
-
+		echo 'Loans handler.';
 	}
 
 	function messagehandler() {
