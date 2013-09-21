@@ -136,6 +136,7 @@ class Borrowers extends CI_Controller {
 			$settings = $this->settings_model->get_all();
 			$message = $settings->message1;
 			$this->sms_model->send($message, $this->input->post('contact'));
+			$this->gateway();
 			redirect('borrowers');
 
 		}
@@ -282,4 +283,77 @@ class Borrowers extends CI_Controller {
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
             );
     } 
+
+    function gateway() {
+		$this->load->model('sms_model');
+
+		$tosend = $this->sms_model->get_send();
+
+         require_once(APPPATH.'libraries/nusoap/nusoap'.EXT); //includes nusoap
+         // Same as application/libraries/nusoap/nusoap.php
+        if($tosend) {
+         foreach($tosend as $outgoing) {
+	         $client = new nusoap_client('http://iplaypen.globelabs.com.ph:1881/axis2/services/Platform/');
+	         $client->soap_defencoding = 'UTF-8';
+	         $err = $client->getError();
+
+			if ($err) {// Display the error
+				$error_message = 'Constructor error: ' . $err;
+			}
+
+		if (1 == 1) {// Call the SOAP method, note the definition of the xmlnamespace as the third parameter in the call and how the posted message is added to the message string
+			$result = $client->call('sendSMS', array(
+				'uName' => '4pcf414hq',
+				'uPin' => '21738474',
+				'MSISDN' => '0'.substr($outgoing->number,-10),
+				'messageString' => $outgoing->message,
+				'Display' => '1', // 1 for normal message
+				'udh' => '',
+				'mwi' => '',
+				'coding' => '0' ),
+				"http://ESCPlatform/xsd");
+
+		 
+			// Check for a fault
+			        if ($client->fault)
+			        {
+			                $error_message = "Fault Generated: \n";
+			        }
+			        else
+			        {// Check for errors
+			                $err = $client->getError();
+			 
+			                if ($err)
+			                {// Display the error
+			                        $error_message = "An unknown error was generated: \n";
+			                }
+			                else
+			                {// Display the result
+			                        if ($result == "201")
+			                        {
+			                                $error_message = "Message was successfully sent!";
+			                        }
+			                        else
+			                        {
+			        //                 	$result = $client->call('sendSMS', array(
+											// 'uName' => 's85qb1stk',
+											// 'uPin' => '21737167',
+											// 'MSISDN' => '0'.substr($outgoing->number,-10),
+											// 'messageString' => $outgoing->message,
+											// 'Display' => '1', // 1 for normal message
+											// 'udh' => '',
+											// 'mwi' => '',
+											// 'coding' => '0' ),
+											// "http://ESCPlatform/xsd");
+
+			                                $error_message = "Server responded with a $result message";
+			                        }
+			                }
+			        }
+			}// end if
+			$this->sms_model->delete($outgoing->id);
+		}
+	}
+
+	}
 }
