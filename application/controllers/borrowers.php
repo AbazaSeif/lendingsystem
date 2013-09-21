@@ -231,7 +231,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('payments_model');
 
 		$data['loans'] = $loan =  $this->loans_model->get_loans($id);
-
+		$data['payments'] = false;
 		if($loan) {
 			$data['payments'] = $this->payments_model->get_payments($loan[0]->id);	
 		}
