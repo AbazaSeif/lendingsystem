@@ -14,8 +14,15 @@ class Borrowers extends CI_Controller {
 		$this->load->model('borrowers_model');
 		$this->load->model('agents_model');
 		$this->load->model('loans_model');
+		$this->load->model('payments_model');
 		
-		$data['loans'] = $this->loans_model->get_all_loans();
+		$data['loans'] = $loans = $this->loans_model->get_all_loans();
+
+		if($loans) {
+			foreach($loans as $loan) {
+			$data['total'][$loan->id] = $this->payments_model->get_sum($loan->id);
+			}
+		}
 
 		$lid = $this->loans_model->get_active_loans();
 		if($lid) {
@@ -99,7 +106,14 @@ class Borrowers extends CI_Controller {
 
 		$settings = $this->settings_model->get_all();
 		$data['settings'] = $settings;
-		$data['loans'] = $this->loans_model->get_all_loans();
+		$data['loans'] = $loans = $this->loans_model->get_all_loans();
+
+		if($loans) {
+			foreach($loans as $loan) {
+			$data['total'][$loan->id] = $this->payments_model->get_sum($loan->id);
+			}
+		}
+
 		$data['title'] = "Add Payment";
 		$this->load->view('templates/header_view');
 		$this->load->view('templates/sidepanel_view',$data);
@@ -165,6 +179,7 @@ class Borrowers extends CI_Controller {
 		$inte = $this->settings_model->get_all();
 		$interest = $inte->interest;
 		$this->form_validation->set_rules('amount','Amount','required');
+		$this->form_validation->set_rules('borrower','Borrower','required');
 
 		if($this->form_validation->run() !== FALSE) {
 			$db = array(

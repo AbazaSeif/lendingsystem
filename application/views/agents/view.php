@@ -141,8 +141,8 @@
 					?>
 					</b>
 					</td>
-					<td id="progress<?php echo $loan->id;?>" data-toggle="tooltip" title="<b>P</b><?php echo $loan->total; ?> / <b>P</b><?php echo $loan->amountdue; ?>" data-placement="right">
-						<?php $percent = round(($loan->total/$loan->amountdue)*100,2) ?>
+					<td id="progress<?php echo $loan->id;?>" data-toggle="tooltip" title="<b>P</b><?php echo $percent[$loan->id]; ?> / <b>P</b><?php echo $loan->amountdue; ?>" data-placement="right">
+						<?php $percent = round(($percent[$loan->id]/$loan->amountdue)*100,2) ?>
 					<div class="progress progress-striped<?php if($loan->status == 1) { echo ' progress-warning'; } else if($loan->status == 3) { echo ' progress-danger'; } ?>" style="text-align:center;">
 					<div class="bar" style="width: <?php echo $percent; ?>%;"><?php echo $percent; ?>%</div>
 					</div>

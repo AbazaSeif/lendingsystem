@@ -95,6 +95,7 @@ class Agents extends CI_Controller {
 		$this->load->model('borrowers_model');
 		$this->load->model('loans_model');
 		$this->load->model('settings_model');
+		$this->load->model('payments_model');
 
 		$interest = $this->settings_model->get_all()->interest;
 		$commision = $this->settings_model->get_all()->commision;
@@ -103,7 +104,14 @@ class Agents extends CI_Controller {
 		$data['borrowers'] = $this->borrowers_model->get_some($id);
 		$data['agent'] = $this->agents_model->get_agent($id);
 		foreach($data['borrowers'] as $borrower) {
-			$data['loans'][$borrower->id] = $this->loans_model->get_loans($borrower->id);
+			$data['loans'][$borrower->id] = $loans =  $this->loans_model->get_loans($borrower->id);
+
+			if($loans) {
+				foreach($loans as $loan) {
+				$data['percent'][$loan->id] = $this->payments_model->get_sum($loan->id);
+				}
+			}
+
 			$finishedloans[$borrower->id] = $this->loans_model->get_finished_loans($borrower->id);
 			if($finishedloans[$borrower->id]) {
 			foreach($finishedloans[$borrower->id] as $loan) {

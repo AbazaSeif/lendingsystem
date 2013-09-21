@@ -276,8 +276,8 @@
 							?>
 							</b>
 						</td>
-						<td id="progress<?php echo $row->id;?>" data-toggle="tooltip" title="<b>P</b><?php echo $row->total; ?> / <b>P</b><?php echo $row->amountdue; ?>" data-placement="right">
-							<?php $percent = round(($row->total/$row->amountdue)*100,2) ?>
+						<td id="progress<?php echo $row->id;?>" data-toggle="tooltip" title="<b>P</b><?php echo $total[$row->id]; ?> / <b>P</b><?php echo $row->amountdue; ?>" data-placement="right">
+							<?php $percent = round(($total[$row->id]/$row->amountdue)*100,2) ?>
 						<div class="progress progress-striped<?php if($row->status == 1) { echo ' progress-warning'; } else if($row->status == 3) { echo ' progress-danger'; } ?>" style="text-align:center;">
 						<div class="bar" style="width: <?php echo $percent; ?>%;"><?php echo $percent; ?>%</div>
 						</div>
