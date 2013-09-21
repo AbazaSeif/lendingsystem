@@ -47,7 +47,7 @@ class Login extends CI_Controller {
 		
 	}
 
-	function loanHanlder() {
+	function loanHandler() {
 		$this->load->model('payments_model');
 		$this->load->model('loans_model');
 		$this->load->model('penalty_model');
