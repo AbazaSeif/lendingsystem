@@ -85,9 +85,9 @@ class Loans_model extends CI_Model {
 	}
 
 
-	function update_total($total,$id) {
+	function update_total($bag,$id) {
 		$data = array(
-			'total' => $total
+			'bag' => $bag
 			);
 		$this->db->where('id',$id)->update('loans',$data);
 	}

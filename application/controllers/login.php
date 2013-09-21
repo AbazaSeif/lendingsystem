@@ -47,6 +47,77 @@ class Login extends CI_Controller {
 		
 	}
 
+	function loanHanlder() {
+		$this->load->model('payments_model');
+		$this->load->model('loans_model');
+		$this->load->model('penalty_model');
+		$this->load->model('settings_model');
+		$this->load->model('borrowers_model');
+
+		// Get all active loans
+		$loans = $this->loans_model->get_active_loans();
+		if($loans) {
+			foreach($loans as $loan) {
+				$payents = $this->payments_model->get_todays_payment($loan->id);
+				$todayspay = 0;
+				foreach($payments as $payment) {
+					$todayspay = $todayspay + $payment->amount;
+				}
+				if($todayspay < ($loan->amountdue/30)) {
+
+					if($loan->bag >= ($loan->amountdue/30)) {
+						// get from bag
+
+						// pay todays loan
+						$this->payments_model->add_payment(array(
+							'loanid' => $loan->id,
+							'amount' => $loan->amountdue/30,
+							'date' => date('Y-m-d')
+							));
+
+						// update bag value
+						$newbag = $loan->bag - ($loan->amountdue/30);
+						$this->loans_model->update_total($newbag, $loan->id);
+
+						$this->borrowers_model->update_payday($loan->borrowerid, 0);
+
+					}
+					else {
+						// penalty
+						$settings = $this->settings_model->get_all();
+						$penaltyamount = $settings->penalty;
+
+						$penalty = array(
+							'userid' => $loan->borrowerid,
+							'amount' => $penaltyamount,
+							'date' => date('Y-m-d')
+							);
+						$this->penalty_model->add_penalty($penalty);
+
+						// add no pay days
+						$borrower = $this->borrowers_model->get_borrower($loan->borrowesid);
+
+						$nopay = $borrower[0]->nopay;
+						$nopay++;
+
+						$this->borrowers_model->update_payday($loan->borrowerid, $nopay);
+
+						if($nopay >= 5) {
+							// send sms to notify the borrower
+						}
+
+					}
+				}
+				else {
+					// do nothing
+				}
+			}
+		}
+
+		//
+
+	}
+
 	function messagehandler() {
 		$this->load->model('sms_model');
 		/* change behavior depending on the type of request. If we receive a POST request, then parse the XML document embedded within and save to the database. We can add additional validation logic later */

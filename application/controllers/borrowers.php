@@ -59,6 +59,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('loans_model');
 		$this->load->model('borrowers_model');
 		$this->load->model('settings_model');
+		$this->load->model('payments_model');
 
 		$this->form_validation->set_rules('amount','Amount','required|numeric');
 
@@ -74,26 +75,24 @@ class Borrowers extends CI_Controller {
 
 
 		if($this->form_validation->run() !== FALSE) {
+			$loan = $this->loans_model->get_loan($this->input->post('loanid'));
+			$bag = $loan[0]->bag;
+			$amount = $loan[0]->amountdue;
+			$perday = $amount/30;
+
+			if($this->input->post('amount') > $perday) {
+				$bag = $bag + $this->input->post('amount') - $perday;
+			}
+
+			$this->loans_model->update_total($bag,$this->input->post('loanid'));
 			$db = array(
 				'loanid' => $this->input->post('loanid'),
 				'amount' => $this->input->post('amount'),
 				'date' => date('Y-m-d')
 				);
 
-			$this->transactions_model->add_transaction($db);
-			$loan = $this->loans_model->get_loan($this->input->post('loanid'));
-			$total = $loan[0]->total;
-			$amount = $loan[0]->amountdue;
-			$newtotal = $total + $this->input->post('amount');
-			$this->loans_model->update_total($newtotal,$this->input->post('loanid'));
+			$this->payments_model->add_payment($db);
 
-			if($newtotal >= $amount) {
-				$this->loans_model->update_status(2,$this->input->post('loanid'));
-				$status = array(
-					'status' => 0
-					);
-				$this->borrowers_model->update_status($loan[0]->borrowerid,$status);
-			}
 			redirect('borrowers/payment');
 
 		}
@@ -228,8 +227,15 @@ class Borrowers extends CI_Controller {
 	function view($id) {
 		$this->load->model('borrowers_model');
 		$this->load->model('loans_model');
+		$this->load->model('payments_model');
 
-		$data['loans'] = $this->loans_model->get_loans($id);
+		$data['loans'] = $loan =  $this->loans_model->get_loans($id);
+
+		if($loan) {
+			$data['payments'] = $this->payments_model->get_payments($loan[0]->id);	
+		}
+		
+
 		$activeloan = $this->loans_model->get_active_loan($id);
 		if($activeloan) {
 			$data['activeloan'] = $activeloan[0];

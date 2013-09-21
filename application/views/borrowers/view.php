@@ -40,54 +40,80 @@
 				</tr>
 				<?php endif; ?>
 			</table>
+			<?php if($payments): ?>
+			<h3>Payments History</h3>
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th class="span3">
+							Date
+						</th>
+						<th>
+							Payment
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php $total = 0; ?>
+					<?php foreach($payments as $payment): ?>
+					<tr>
+						<td>
+							<?php echo date("M d Y",strtotime($payment->date)); ?>
+						</td>
+						<td>
+							<strong>P</strong> <?php echo $payment->amount; ?>
+						</td>
+					</tr>
+					<?php $total = $total + $payment->amount; ?>
+					<?php endforeach; ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							Total:
+						</td>
+						<td>
+							<strong>P</strong> <?php echo $total; ?>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<?php endif; ?>
+
+
 			<?php if($activeloan): ?>
 			<table class="table table-bordered table-hover">
 				<tr>
-					<th>
+					<th class="span1">
 						Day
 					</th>
 					<th>
 						Date
 					</th>
 					<th>
-						Per Day Amount
+						Amount Due
 					</th>
-					<th>
-						Amount Paid
-					</th>
-					<th>
+					<th class="span1">
 						Status
 					</th>
 				</tr>
-				<?php $total =  $activeloan->total ; ?>
+				<?php $pseudototal = 0 ; ?>
 				<?php for($x=0; $x<30 ; $x++): ?>
+				<?php $pseudototal = $pseudototal + ($activeloan->amountdue/30); ?>
 				<tr>
 					<td>
 						<b><?php echo $x + 1 ; ?></b>
 					</td>
 					<td>
-						<?php echo date('Y-m-d', strtotime($activeloan->date. ' + '.$x.' days')); ?>
+						<?php echo date('M d Y', strtotime($activeloan->date. ' + '.($x + 1).' days')); ?>
 					</td>
 					<td>
-						<b>P </b><?php echo round($activeloan->amountdue/30,2,PHP_ROUND_HALF_UP); ?>
-					</td>
-					<td><b>P </b>
-						<?php if($activeloan->amountdue - $activeloan->amountdue/30 * ($x) <= $activeloan->amountdue - $activeloan->total) {
-							echo -($activeloan->amountdue - $activeloan->amountdue/30 * ($x));
-						}
-						else {
-							echo $activeloan->amountdue/30;
-						}
-						 ?>
+						<strong>P</strong> <?php echo $activeloan->amountdue / 30 ; ?>
 					</td>
 					<td>
-						<?php if($activeloan->amountdue - $activeloan->amountdue/30 * ($x+1) <= $activeloan->amountdue - $activeloan->total) {
-							echo 'Pending';
-						}
-						else {
-							echo 'Ok';
-						}
-						 ?>
+						<?php if($pseudototal < $total): ?>
+						<i class="icon-ok"></i>
+						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endfor; ?>

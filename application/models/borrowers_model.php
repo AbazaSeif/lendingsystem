@@ -106,5 +106,12 @@ class Borrowers_model extends CI_Model {
 			return FALSE;
 		}
 	}
+
+	function update_payday($id, $value) {
+		$data = array(
+			'nopay' => $value
+			);
+		$this->db->where('id', $id)->update('borrowers', $data);
+	}
 		
 }
