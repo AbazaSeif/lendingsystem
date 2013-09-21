@@ -438,7 +438,8 @@ public function inbox() {
 						else if($status = 1) {
 							$loan = current($this->loans_model->get_borrower_active($borrower[0]->id));
 							if($loan) {
-								$message = "You have an active loan. \n Loan Amount: P".$loan->amount."\nAmount Due: P".$loan->amountdue."\nDue Date: ".$loan->duedate."\nPer Day: P".($loan->amountdue/30)."\nCurrent Balance: P".($loan->amountdue - $loan->total);
+								$loantotal[$loan->id] = $this->payments_model->get_sum($loan->id);
+								$message = "You have an active loan. \n Loan Amount: P".$loan->amount."\nAmount Due: P".$loan->amountdue."\nDue Date: ".$loan->duedate."\nPer Day: P".($loan->amountdue/30)."\nCurrent Balance: P".($loan->amountdue - $loantotal[$loan->id]);
 							}
 							else {
 								$message = "Something went wrong. Please contact your agent immedietly.";
