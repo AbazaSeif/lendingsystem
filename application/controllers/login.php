@@ -309,7 +309,7 @@ public function inbox() {
 								'lastname' => $lname,
 								'firstname' => $fname,
 								'middlename' => $mname,
-								'contact' => subsrt($contact, -10),
+								'contact' => substr($contact, -10),
 								'address' => $address,
 								'gender' => $gender,
 								'agentid' => $agent[0]->id
