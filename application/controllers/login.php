@@ -397,7 +397,7 @@ public function inbox() {
 								'date' => date('Y-m-d')
 								);
 
-							$this->transactions_model->add_transaction($db);
+							$this->payments_model->add_payment($db);
 							$loan = $this->loans_model->get_loan($loanid);
 							$total = $loan[0]->total;
 							$amountdue = $loan[0]->amountdue;
