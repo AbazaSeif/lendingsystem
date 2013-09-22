@@ -37,6 +37,11 @@
 					<td>
 						<h4><small>Agent:</small> <?php echo $borrower[0]->alastname; ?>, <?php echo $borrower[0]->afirstname; ?>, <?php echo $borrower[0]->amiddlename; ?></h4>
 					</td>
+					<td>
+						<?php if($activeloan): ?>
+						<h4><small>Wallet:</small> P<?php echo $activeloan->bag; ?></h4>
+						<?php endif; ?>
+					</td>
 				</tr>
 				<?php endif; ?>
 			</table>
