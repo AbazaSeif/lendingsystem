@@ -174,6 +174,8 @@ function gen_uuid() {
 			   // Unsupported Message Type
 			}
 		}
+		$this->inbox();
+		$this->gateway();
 	}
 
 public function inbox() {
