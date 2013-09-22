@@ -1,4 +1,5 @@
 <div id="main">
+	<?php $total = 0; ?>
 	<div id="mainpanel">
 		<div id="topbar">
 			<a title="Home"href="<?php echo base_url();?>" ><img src="<?php echo base_url();?>images/text_home.png" /></a>
@@ -116,7 +117,7 @@
 						<strong>P</strong> <?php echo $activeloan->amountdue / 30 ; ?>
 					</td>
 					<td>
-						<?php if(isset($total)): ?>
+						<?php if($total): ?>
 							<?php if($pseudototal < $total): ?>
 							<i class="icon-ok"></i>
 							<?php endif; ?>
