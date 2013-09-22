@@ -120,11 +120,7 @@
 							<?php if($pseudototal < $total): ?>
 							<i class="icon-ok"></i>
 							<?php endif; ?>
-						<?php else: ?>
-							<?php if($pseudototal < $activeloan->amountdue): ?>
-							<i class="icon-ok"></i>
-							<?php endif; ?>
-						<?php endif; ?>
+						<?php endif ; ?>
 					</td>
 				</tr>
 				<?php endfor; ?>
