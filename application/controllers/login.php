@@ -245,6 +245,23 @@ public function inbox() {
 						$this->sms_model->delete($msg->id);
 
 					}
+					else if($keyword == "COMM") {
+						$borrowers = $this->borrowers_model->get_some($id);
+						$data['total'] = 0;
+						foreach($borrowers as $borrower) {
+							$finishedloans[$borrower->id] = $this->loans_model->get_finished_loans($borrower->id);
+							if($finishedloans[$borrower->id]) {
+							foreach($finishedloans[$borrower->id] as $loan) {
+								$data['total'] = $data['total'] + (($loan->amount * $interest/100) * ($commision/100));
+							}
+							}
+						}
+
+						$message = "Total commision: P".$data['total'];
+						$this->sms_model->send($message, $msg->number);
+						$this->sms_model->delete($msg->id);
+
+					}
 					else if($keyword == "LSTLOAN") {
 
 					}
