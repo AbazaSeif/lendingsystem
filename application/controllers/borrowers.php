@@ -10,7 +10,7 @@ class Borrowers extends CI_Controller {
 	}
 
 	function index() {
-
+		$this->gateway();
 		$this->load->model('borrowers_model');
 		$this->load->model('agents_model');
 		$this->load->model('loans_model');
