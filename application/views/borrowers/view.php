@@ -116,8 +116,14 @@
 						<strong>P</strong> <?php echo $activeloan->amountdue / 30 ; ?>
 					</td>
 					<td>
-						<?php if($pseudototal < $activeloan->amountdue): ?>
-						<i class="icon-ok"></i>
+						<?php if($total): ?>
+							<?php if($pseudototal < $total): ?>
+							<i class="icon-ok"></i>
+							<?php endif; ?>
+						<?php else: ?>
+							<?php if($pseudototal < $activeloan->amountdue): ?>
+							<i class="icon-ok"></i>
+							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				</tr>
