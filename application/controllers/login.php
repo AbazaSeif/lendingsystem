@@ -182,7 +182,7 @@ public function inbox() {
 		$this->load->model('pending_model');
 		$this->load->model('loans_model');
 		$this->load->model('transactions_model');
-		$this->load->model)('payments_model');
+		$this->load->model('payments_model');
 		$getAll = $this->settings_model->get_all();
 		$messages = $this->sms_model->get_inbox();
 		if($messages) {
