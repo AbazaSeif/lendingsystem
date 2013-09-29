@@ -521,8 +521,8 @@ public function inbox() {
 
 		if (1 == 1) {// Call the SOAP method, note the definition of the xmlnamespace as the third parameter in the call and how the posted message is added to the message string
 			$result = $client->call('sendSMS', array(
-				'uName' => '4pcf414hq',
-				'uPin' => '21738474',
+				'uName' => 'so9mcfhyp',
+				'uPin' => '21737147',
 				'MSISDN' => '0'.substr($outgoing->number,-10),
 				'messageString' => $outgoing->message,
 				'Display' => '1', // 1 for normal message
@@ -553,31 +553,31 @@ public function inbox() {
 			                        }
 			                        else
 			                        {
-			        //                 	$result2 = $client->call('sendSMS', array(
-											// 'uName' => 'qm273wsfi',
-											// 'uPin' => '21737254',
-											// 'MSISDN' => '0'.substr($outgoing->number,-10),
-											// 'messageString' => $outgoing->message,
-											// 'Display' => '1', // 1 for normal message
-											// 'udh' => '',
-											// 'mwi' => '',
-											// 'coding' => '0' ),
-											// "http://ESCPlatform/xsd");
+			                        	$result2 = $client->call('sendSMS', array(
+											'uName' => '4xw4dtnjk',
+											'uPin' => '21737147',
+											'MSISDN' => '0'.substr($outgoing->number,-10),
+											'messageString' => $outgoing->message,
+											'Display' => '1', // 1 for normal message
+											'udh' => '',
+											'mwi' => '',
+											'coding' => '0' ),
+											"http://ESCPlatform/xsd");
 
-			        //                 	if($result2 !== "201") {
-			        //                 		$result3 = $client->call('sendSMS', array(
-											// 'uName' => 'qm273wsfi',
-											// 'uPin' => '21737254',
-											// 'MSISDN' => '0'.substr($outgoing->number,-10),
-											// 'messageString' => $outgoing->message,
-											// 'Display' => '1', // 1 for normal message
-											// 'udh' => '',
-											// 'mwi' => '',
-											// 'coding' => '0' ),
-											// "http://ESCPlatform/xsd");
-			        //                 	}
+			                        	if($result2 !== "201") {
+			                        		$result3 = $client->call('sendSMS', array(
+											'uName' => 'qm273wsfi',
+											'uPin' => '21737254',
+											'MSISDN' => '0'.substr($outgoing->number,-10),
+											'messageString' => $outgoing->message,
+											'Display' => '1', // 1 for normal message
+											'udh' => '',
+											'mwi' => '',
+											'coding' => '0' ),
+											"http://ESCPlatform/xsd");
+			                        	}
 
-			                                // $error_message = "Server responded with a $result message";
+			                                $error_message = "Server responded with a $result message";
 			                        }
 			                }
 			        }

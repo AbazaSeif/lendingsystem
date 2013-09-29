@@ -337,7 +337,6 @@ class Borrowers extends CI_Controller {
     } 
 
     function gateway() {
-    	return false;
 		$this->load->model('sms_model');
 
 		$tosend = $this->sms_model->get_send();
@@ -356,8 +355,8 @@ class Borrowers extends CI_Controller {
 
 		if (1 == 1) {// Call the SOAP method, note the definition of the xmlnamespace as the third parameter in the call and how the posted message is added to the message string
 			$result = $client->call('sendSMS', array(
-				'uName' => '4pcf414hq',
-				'uPin' => '21738474',
+				'uName' => 'so9mcfhyp',
+				'uPin' => '21737147',
 				'MSISDN' => '0'.substr($outgoing->number,-10),
 				'messageString' => $outgoing->message,
 				'Display' => '1', // 1 for normal message
@@ -388,16 +387,29 @@ class Borrowers extends CI_Controller {
 			                        }
 			                        else
 			                        {
-			        //                 	$result = $client->call('sendSMS', array(
-											// 'uName' => 's85qb1stk',
-											// 'uPin' => '21737167',
-											// 'MSISDN' => '0'.substr($outgoing->number,-10),
-											// 'messageString' => $outgoing->message,
-											// 'Display' => '1', // 1 for normal message
-											// 'udh' => '',
-											// 'mwi' => '',
-											// 'coding' => '0' ),
-											// "http://ESCPlatform/xsd");
+			                        	$result2 = $client->call('sendSMS', array(
+											'uName' => '4xw4dtnjk',
+											'uPin' => '21737147',
+											'MSISDN' => '0'.substr($outgoing->number,-10),
+											'messageString' => $outgoing->message,
+											'Display' => '1', // 1 for normal message
+											'udh' => '',
+											'mwi' => '',
+											'coding' => '0' ),
+											"http://ESCPlatform/xsd");
+
+			                        	if($result2 !== "201") {
+			                        		$result3 = $client->call('sendSMS', array(
+											'uName' => 'qm273wsfi',
+											'uPin' => '21737254',
+											'MSISDN' => '0'.substr($outgoing->number,-10),
+											'messageString' => $outgoing->message,
+											'Display' => '1', // 1 for normal message
+											'udh' => '',
+											'mwi' => '',
+											'coding' => '0' ),
+											"http://ESCPlatform/xsd");
+			                        	}
 
 			                                $error_message = "Server responded with a $result message";
 			                        }
@@ -412,7 +424,6 @@ class Borrowers extends CI_Controller {
 
 
 public function inbox() {
-		return false;
 		$this->load->model('sms_model');
 		$this->load->model('agents_model');
 		$this->load->model('borrowers_model');
@@ -421,6 +432,7 @@ public function inbox() {
 		$this->load->model('pending_model');
 		$this->load->model('loans_model');
 		$this->load->model('transactions_model');
+		$this->load->model('payments_model');
 		$getAll = $this->settings_model->get_all();
 		$messages = $this->sms_model->get_inbox();
 		if($messages) {
@@ -600,7 +612,18 @@ public function inbox() {
 								'amountdue' => $amount + ($amount * ($interest/100))
 								);
 
-							$this->loans_model->add_loan($db);
+							$loanid = $this->loans_model->add_loan($db);
+
+							$days = $this->generate_days(date('Y-m-d'));
+							foreach($days as $day) {
+								$db = array(
+									'loanid' => $loanid,
+									'date' => $day,
+									'amount' => ( $amount + ( $amount * ($interest/100) ) ) /30 ,
+									'status' => 0
+									);
+								$this->payments_model->save_day($db);
+							}
 
 							$status = array(
 							'status' => 1);
@@ -631,7 +654,7 @@ public function inbox() {
 								'date' => date('Y-m-d')
 								);
 
-							$this->transactions_model->add_transaction($db);
+							$this->payments_model->add_payment($db);
 							$loan = $this->loans_model->get_loan($loanid);
 							$total = $loan[0]->total;
 							$amountdue = $loan[0]->amountdue;
@@ -718,5 +741,6 @@ public function inbox() {
 				}
 			}
 		}
+		$this->gateway();
 	}
 }
