@@ -301,9 +301,11 @@
 $(document).ready(function() {
 	$(".datepickers").datepicker();
 });
+<?php if($loans): ?>
 <?php foreach($loans as $row): ?>
 	$('#progress<?php echo $row->id;?>').hover(function() {
 		$(this).tooltip('show');
 	});
 <?php endforeach; ?>
+<?php endif; ?>
 </script>
