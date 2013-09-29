@@ -58,58 +58,53 @@ class Login extends CI_Controller {
 		$loans = $this->loans_model->get_active_loans();
 		if($loans) {
 			foreach($loans as $loan) {
-				$payents = $this->payments_model->get_todays_payment($loan->id);
-				$todayspay = 0;
-				foreach($payments as $payment) {
-					$todayspay = $todayspay + $payment->amount;
-				}
-				if($todayspay < ($loan->amountdue/30)) {
-
-					if($loan->bag >= ($loan->amountdue/30)) {
-						// get from bag
-
-						// pay todays loan
-						$this->payments_model->add_payment(array(
-							'loanid' => $loan->id,
-							'amount' => $loan->amountdue/30,
-							'date' => date('Y-m-d')
-							));
-
-						// update bag value
-						$newbag = $loan->bag - ($loan->amountdue/30);
-						$this->loans_model->update_total($newbag, $loan->id);
-
-						$this->borrowers_model->update_payday($loan->borrowerid, 0);
-
-					}
-					else {
+				$payments = $this->payments_model->get_todays_payment($loan->id);
+				
+				if($payments) {
 						// penalty
 						$settings = $this->settings_model->get_all();
 						$penaltyamount = $settings->penalty;
 
-						$penalty = array(
-							'userid' => $loan->borrowerid,
-							'amount' => $penaltyamount,
-							'date' => date('Y-m-d')
-							);
-						$this->penalty_model->add_penalty($penalty);
+						//get past unpaid
+						$past = $this->payments_model->get_past_unpaid($loan->id);
 
-						// add no pay days
-						$borrower = $this->borrowers_model->get_borrower($loan->borrowesid);
+						if($past) {
+							foreach($past as $yesterday) {
+								//update next days amount
+								$next = array(
+									'loanid' => $loan->id,
+									'amount' => $yesterday->amount + $penaltyamount
+									);
 
-						$nopay = $borrower[0]->nopay;
-						$nopay++;
+								$this->payments_model->update_next_amount($next);
 
-						$this->borrowers_model->update_payday($loan->borrowerid, $nopay);
+								//change current status to 3
+								$pay = array(
+									'loanid' => $loan->id,
+									'date' => $yesterday->date
+									);
+								$this->payments_model->skip_payment($pay);
 
-						if($nopay >= 5) {
-							// send sms to notify the borrower
+								$penalty = array(
+									'userid' => $loan->borrowerid,
+									'amount' => $penaltyamount,
+									'date' => $yesterday->date
+									);
+								$this->penalty_model->add_penalty($penalty);
+							}
+
+							// add no pay days
+							$borrower = $this->borrowers_model->get_borrower($loan->borrowerid);
+
+							$nopay = $borrower[0]->nopay;
+							$nopay++;
+
+							$this->borrowers_model->update_payday($loan->borrowerid, $nopay);
+
+							if($nopay >= 5) {
+								// send sms to notify the borrower
+							}
 						}
-
-					}
-				}
-				else {
-					// do nothing
 				}
 			}
 		}
@@ -187,6 +182,7 @@ public function inbox() {
 		$this->load->model('pending_model');
 		$this->load->model('loans_model');
 		$this->load->model('transactions_model');
+		$this->load->model)('payments_model');
 		$getAll = $this->settings_model->get_all();
 		$messages = $this->sms_model->get_inbox();
 		if($messages) {
@@ -366,7 +362,18 @@ public function inbox() {
 								'amountdue' => $amount + ($amount * ($interest/100))
 								);
 
-							$this->loans_model->add_loan($db);
+							$loanid = $this->loans_model->add_loan($db);
+
+							$days = $this->generate_days(date('Y-m-d'));
+							foreach($days as $day) {
+								$db = array(
+									'loanid' => $loanid,
+									'date' => $day,
+									'amount' => ( $amount + ( $amount * ($interest/100) ) ) /30 ,
+									'status' => 0
+									);
+								$this->payments_model->save_day($db);
+							}
 
 							$status = array(
 							'status' => 1);
@@ -485,6 +492,14 @@ public function inbox() {
 			}
 		}
 	}
+
+	function generate_days($today) {
+		for($i = 0; $i < 30; $i++) {
+			$days[$i] = date('Y-m-d', strtotime('+'.($i + 1).' day', strtotime($today)));	
+		}
+		return $days;
+	}
+
 
 	function gateway() {
 		$this->load->model('sms_model');

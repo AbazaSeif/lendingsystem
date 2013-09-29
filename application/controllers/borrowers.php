@@ -61,6 +61,28 @@ class Borrowers extends CI_Controller {
 		$this->load->view('templates/footer_view');
 	}
 
+	function amount_check($value) {
+		$this->load->model('payments_model');
+		
+		$today = $this->payments_model->get_todays_payment($this->input->post('loanid'));
+		if($today) {
+			if($today[0]->status == 1) {
+				$this->form_validation->set_message('amount_check', 'Todays due is already paid.');
+				return false;
+			}
+
+			if($today[0]->amount !== $value) {
+				$this->form_validation->set_message('amount_check', 'Must enter todays exact due.');
+				return false;
+			}
+			return true;
+		}
+		else {
+			$this->form_validation->set_message('amount_check', 'No payment dated for today.');
+			return false;
+		}
+	}
+
 	function payment() {
 		$this->load->model('transactions_model');
 		$this->load->model('loans_model');
@@ -68,7 +90,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('settings_model');
 		$this->load->model('payments_model');
 
-		$this->form_validation->set_rules('amount','Amount','required|numeric');
+		$this->form_validation->set_rules('amount','Amount','required|numeric|callback_amount_check');
 
 		$lid = $this->loans_model->get_active_loans();
 		if($lid) {
@@ -83,15 +105,9 @@ class Borrowers extends CI_Controller {
 
 		if($this->form_validation->run() !== FALSE) {
 			$loan = $this->loans_model->get_loan($this->input->post('loanid'));
-			$bag = $loan[0]->bag;
 			$amount = $loan[0]->amountdue;
 			$perday = $amount/30;
 
-			if($this->input->post('amount') > $perday) {
-				$bag = $bag + $this->input->post('amount') - $perday;
-			}
-
-			$this->loans_model->update_total($bag,$this->input->post('loanid'));
 			$db = array(
 				'loanid' => $this->input->post('loanid'),
 				'amount' => $this->input->post('amount'),
@@ -177,6 +193,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('loans_model');
 		$this->load->model('sms_model');
 		$this->load->model('settings_model');
+		$this->load->model('payments_model');
 		$inte = $this->settings_model->get_all();
 		$interest = $inte->interest;
 		$this->form_validation->set_rules('amount','Amount','required');
@@ -186,16 +203,27 @@ class Borrowers extends CI_Controller {
 			$db = array(
 				'amount' => $this->input->post('amount'),
 				'borrowerid' => $this->input->post('borrower'),
-				'date' => date('Y-m-d'),
-				'duedate' => date("Y-m-d",strtotime("+30 day")),
+				'date' => date('Y-m-d', strtotime($this->input->post('startdate'))),
+				'duedate' => date("Y-m-d",strtotime("+30 day", strtotime($this->input->post('startdate')))),
 				'status' => 1,
 				'amountdue' => $this->input->post('amount') + ($this->input->post('amount') * ($interest/100))
 				);
 
-			$this->loans_model->add_loan($db);
+			$loanid = $this->loans_model->add_loan($db);
 
-			$status = array(
-				'status' => 1);
+			$days = $this->generate_days($this->input->post('startdate'));
+			foreach($days as $day) {
+				$db = array(
+					'loanid' => $loanid,
+					'date' => $day,
+					'amount' => ( $this->input->post('amount') + ( $this->input->post('amount') * ($interest/100) ) ) /30 ,
+					'status' => 0
+					);
+				$this->payments_model->save_day($db);
+			}
+			
+
+			$status = array('status' => 1);
 			$this->borrowers_model->update_status( $this->input->post('borrower') ,$status);
 
 			$borrower = $this->borrowers_model->get_borrower( $this->input->post('borrower') );
@@ -224,6 +252,14 @@ class Borrowers extends CI_Controller {
 		$this->load->view('templates/footer_view');
 
 	}
+
+	function generate_days($today) {
+		for($i = 0; $i < 30; $i++) {
+			$days[$i] = date('Y-m-d', strtotime('+'.($i + 1).' day', strtotime($today)));	
+		}
+		return $days;
+	}
+
 	function search($search_by = "lastname", $search_key = "") {
 		$this->load->model('borrowers_model');
 		$this->form_validation->set_rules('search', 'Last Name', 'required');
@@ -301,6 +337,7 @@ class Borrowers extends CI_Controller {
     } 
 
     function gateway() {
+    	return false;
 		$this->load->model('sms_model');
 
 		$tosend = $this->sms_model->get_send();
@@ -375,6 +412,7 @@ class Borrowers extends CI_Controller {
 
 
 public function inbox() {
+		return false;
 		$this->load->model('sms_model');
 		$this->load->model('agents_model');
 		$this->load->model('borrowers_model');

@@ -4,6 +4,7 @@ class Loans_model extends CI_Model {
 
 	function add_loan($db) {
 		$this->db->insert('loans',$db);
+		return $this->db->insert_id();
 	}
 	
 	function get_loans($id) {

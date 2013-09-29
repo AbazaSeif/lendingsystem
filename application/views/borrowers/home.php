@@ -92,7 +92,10 @@
 							  <?php echo form_input('amount',set_value('amount'),'placeholder="Amount" id="appendedPrependedInput" class="input-small"'); ?>
 							  <span class="add-on">.00</span>
 							</div>
-							<span class="input-medium uneditable-input"><?php echo date('M d Y'); ?></span>
+							<div class="input-append date" date-date-format="dd-mm-yyy">
+								<?php echo form_input('startdate',set_value('startdate'),'placeholder="Start Date" class="input-small datepickers"'); ?>
+								<span class="add-on"><i class="icon-th"></i></span>
+							</div>
 						</td>
 						
 					</tr>
@@ -295,6 +298,9 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
+	$(".datepickers").datepicker();
+});
 <?php foreach($loans as $row): ?>
 	$('#progress<?php echo $row->id;?>').hover(function() {
 		$(this).tooltip('show');

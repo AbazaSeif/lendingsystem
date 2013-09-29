@@ -85,13 +85,13 @@
 							<b><?php echo $row->id; ?></b>
 						</td>
 						<td>
-							<b><?php echo $row->borrowerid;?></b>
+							<?php echo $row->blastname; ?>, <?php echo $row->bfirstname; ?>
 						</td>
 						<td>
 							<b>P</b><?php echo $row->amount; ?>
 						</td>
 						<td>
-							<b>P</b><?php echo round($row->amount/30,2,PHP_ROUND_HALF_UP); ?>
+							<b>P</b><?php echo round($row->amountdue/30,2,PHP_ROUND_HALF_UP); ?>
 						</td>
 						<td>
 							<?php echo $row->date; ?>

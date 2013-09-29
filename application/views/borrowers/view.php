@@ -39,23 +39,24 @@
 						<h4><small>Agent:</small> <?php echo $borrower[0]->alastname; ?>, <?php echo $borrower[0]->afirstname; ?>, <?php echo $borrower[0]->amiddlename; ?></h4>
 					</td>
 					<td>
-						<?php if($activeloan): ?>
-						<h4><small>Wallet:</small> P<?php echo $activeloan->bag; ?></h4>
-						<?php endif; ?>
 					</td>
 				</tr>
 				<?php endif; ?>
 			</table>
+			<?php if($activeloan): ?>
 			<?php if($payments): ?>
-			<h3>Payments History</h3>
+			<h3>Current Loan</h3>
 			<table class="table table-bordered table-hover">
 				<thead>
 					<tr>
 						<th class="span3">
-							Date
+							Due
 						</th>
 						<th>
-							Payment
+							Amount
+						</th>
+						<th class="span1">
+							Status
 						</th>
 					</tr>
 				</thead>
@@ -64,10 +65,14 @@
 					<?php foreach($payments as $payment): ?>
 					<tr>
 						<td>
-							<?php echo date("M d Y",strtotime($payment->date)); ?>
+							<?php if(date('Y-m-d', strtotime($payment->date)) == date('Y-m-d')) echo '<strong>'; ?><?php echo date("M d Y",strtotime($payment->date)); ?><?php if(date('Y-m-d', strtotime($payment->date)) == date('Y-m-d')) echo '</strong>'; ?>
 						</td>
 						<td>
 							<strong>P</strong> <?php echo $payment->amount; ?>
+						</td>
+						<td>
+							<?php echo($payment->status == 1) ? '<i class="icon-ok"></i>' : ''; ?>
+							<?php echo($payment->status == 3) ? '<i class="icon-remove"></i>' : ''; ?>
 						</td>
 					</tr>
 					<?php $total = $total + $payment->amount; ?>
@@ -76,56 +81,17 @@
 				<tfoot>
 					<tr>
 						<td>
-							Total:
+							<strong>Total:</strong>
 						</td>
 						<td>
 							<strong>P</strong> <?php echo $total; ?>
+						</td>
+						<td>
 						</td>
 					</tr>
 				</tfoot>
 			</table>
 			<?php endif; ?>
-
-
-			<?php if($activeloan): ?>
-			<table class="table table-bordered table-hover">
-				<tr>
-					<th class="span1">
-						Day
-					</th>
-					<th>
-						Date
-					</th>
-					<th>
-						Amount Due
-					</th>
-					<th class="span1">
-						Status
-					</th>
-				</tr>
-				<?php $pseudototal = 0 ; ?>
-				<?php for($x=0; $x<30 ; $x++): ?>
-				<?php $pseudototal = $pseudototal + ($activeloan->amountdue/30); ?>
-				<tr>
-					<td>
-						<b><?php echo $x + 1 ; ?></b>
-					</td>
-					<td>
-						<?php echo date('M d Y', strtotime($activeloan->date. ' + '.($x + 1).' days')); ?>
-					</td>
-					<td>
-						<strong>P</strong> <?php echo $activeloan->amountdue / 30 ; ?>
-					</td>
-					<td>
-						<?php if($total): ?>
-							<?php if($pseudototal < $total): ?>
-							<i class="icon-ok"></i>
-							<?php endif; ?>
-						<?php endif ; ?>
-					</td>
-				</tr>
-				<?php endfor; ?>
-			</table>
 			<?php endif; ?>
 
 			<?php if($loans): ?>

@@ -105,20 +105,22 @@ class Agents extends CI_Controller {
 		$data['borrowers'] = $this->borrowers_model->get_some($id);
 		$data['agent'] = $this->agents_model->get_agent($id);
 		$data['borrowers'] = $this->borrowers_model->get_some($id);
-		foreach($data['borrowers'] as $borrower) {
-			$data['loans'][$borrower->id] = $loans =  $this->loans_model->get_loans($borrower->id);
+		if($data['borrowers']) {
+			foreach($data['borrowers'] as $borrower) {
+				$data['loans'][$borrower->id] = $loans =  $this->loans_model->get_loans($borrower->id);
 
-			if($loans) {
-				foreach($loans as $loan) {
-				$data['percent'][$loan->id] = $this->payments_model->get_sum($loan->id);
+				if($loans) {
+					foreach($loans as $loan) {
+					$data['percent'][$loan->id] = $this->payments_model->get_sum($loan->id);
+					}
 				}
-			}
 
-			$finishedloans[$borrower->id] = $this->loans_model->get_finished_loans($borrower->id);
-			if($finishedloans[$borrower->id]) {
-			foreach($finishedloans[$borrower->id] as $loan) {
-				$data['total'] = $data['total'] + (($loan->amount * $interest/100) * ($commision/100));
-			}
+				$finishedloans[$borrower->id] = $this->loans_model->get_finished_loans($borrower->id);
+				if($finishedloans[$borrower->id]) {
+				foreach($finishedloans[$borrower->id] as $loan) {
+					$data['total'] = $data['total'] + (($loan->amount * $interest/100) * ($commision/100));
+				}
+				}
 			}
 		}
 		
