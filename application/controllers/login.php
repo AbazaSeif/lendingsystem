@@ -491,6 +491,7 @@ public function inbox() {
 				}
 			}
 		}
+		$this->gateway();
 	}
 
 	function generate_days($today) {
