@@ -405,19 +405,19 @@ public function inbox() {
 								);
 
 							$this->payments_model->add_payment($db);
-							$loan = $this->loans_model->get_loan($loanid);
-							$total = $loan[0]->total;
-							$amountdue = $loan[0]->amountdue;
-							$newtotal = $total + $amount;
-							$this->loans_model->update_total($newtotal,$loanid);
+							// $loan = $this->loans_model->get_loan($loanid);
+							// $total = $loan[0]->total;
+							// $amountdue = $loan[0]->amountdue;
+							// $newtotal = $total + $amount;
+							// $this->loans_model->update_total($newtotal,$loanid);
 
-							if($newtotal >= $amountdue) {
-								$this->loans_model->update_status(2,$loanid);
-								$status = array(
-									'status' => 0
-									);
-								$this->borrowers_model->update_status($loan[0]->borrowerid,$status);
-							}
+							// if($newtotal >= $amountdue) {
+							// 	$this->loans_model->update_status(2,$loanid);
+							// 	$status = array(
+							// 		'status' => 0
+							// 		);
+							// 	$this->borrowers_model->update_status($loan[0]->borrowerid,$status);
+							// }
 
 							$brw = $this->borrowers_model->get_borrower($id);
 							$borrower = $brw[0];
