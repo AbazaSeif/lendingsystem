@@ -68,7 +68,7 @@ class Borrowers extends CI_Controller {
 
 		ini_set('memory_limit', '64M');
 		$this->load->library('pdf');
-		$html = '<h1>Agents List</h1>';
+		$html = '<h1>Borrowers List</h1>';
 
 		$html .= '<table class="mytable">
 				<thead>
