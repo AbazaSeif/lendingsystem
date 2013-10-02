@@ -61,6 +61,59 @@ class Borrowers extends CI_Controller {
 		$this->load->view('templates/footer_view');
 	}
 
+	function export() {
+		$this->load->model('borrowers_model');
+		
+		$data['borrowers'] = $this->borrowers_model->get_borrowers();
+
+		ini_set('memory_limit', '64M');
+		$this->load->library('pdf');
+		$html = '<h1>Agents List</h1>';
+
+		$html .= '<table class="mytable">
+				<thead>
+					<tr>
+						<th>
+							ID
+						</th>
+						<th>
+							Name
+						</th>
+						<th>
+							Contact Number
+						</th>
+						<th>
+							Address
+						</th>
+					</tr>
+				</thead>
+				<tbody>';
+		if($data['borrowers']) {
+		foreach($data['borrowers'] as $row) {
+			$html .= '<tr>';
+			$html .= '<td>'.$row->id.'</td>';
+			$html .= '<td>'.$row->lastname.', '.$row->firstname.' '.$row->middlename.'</td>';
+			$html .= '<td>'.$row->contact.'</td>';
+			$html .= '<td>'.$row->address.'</td>';
+			$html .= '</tr>';
+		}
+		}
+
+		$html .= '	</tbody>
+				</table>
+
+				<style type="text/css">
+				.mytable {
+					width:100%;
+					font-family:arial;
+				}
+				</style>';
+
+		$pdf = $this->pdf->load();
+		$pdf->WriteHTML($html);
+		$pdf->Output();
+	}
+
 	function amount_check($value) {
 		$this->load->model('payments_model');
 		

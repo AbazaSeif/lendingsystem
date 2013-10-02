@@ -36,13 +36,31 @@ class Login extends CI_Controller {
 				redirect('home');
 			}
 			else {
-				redirect('login');
+
+				if($this->session->userdata('tries')) {
+					$val = $this->session->userdata('tries') + 1;
+				}
+				else {
+					$val = 1;
+				}
+
+				$this->session->set_userdata(array(
+					'tries' => $val
+					));
 				$data['error'] = "Wrong Credentials";
+
+				redirect('login');
 			}
 		}
 		$data['title'] = "Login";
 		$this->load->vieW('templates/header_view', $data);
-		$this->load->view('login/login_view',$data);
+		if($this->session->userdata('tries') <= 3) {
+			$this->load->view('login/login_view',$data);	
+		}
+		else {
+			$this->load->view('login/system_lock', $data);
+		}
+		
 		$this->load->view('templates/footer_view', $data);
 		
 	}
@@ -220,16 +238,27 @@ public function inbox() {
 						$i = explode("/", $command);
 						$id =$i[0];
 
-						$am = explode("/", $command);
-						$amount = $am[1];
-						$message = "Loan registration for borrower id: ".$id." amount: ".$amount.". Reply ".$code." to confirm.";
+						$borrower = $this->borrowers_model->get_borrower($id);
+
+						if($borrower[0]->status == 1) {
+							$message = "Loan registration for borrower:".$borrower[0]->lastname.', '.$borrower[0]->firstname.' failed. Borrower currently on loan.';
+						}
+						else {
+							$am = explode("/", $command);
+							$amount = $am[1];
+							$message = "Loan registration for borrower id: ".$id." amount: ".$amount.". Reply ".$code." to confirm.";
+							
+							$data = array(
+								'code' => $code,
+								'command' => $msg->message
+								);
+							$this->pending_model->add_pending($data);
+							
+						}
 						$this->sms_model->send($message, $msg->number);
-						$data = array(
-							'code' => $code,
-							'command' => $msg->message
-							);
-						$this->pending_model->add_pending($data);
 						$this->sms_model->delete($msg->id);
+
+						
 					}
 					else if($keyword == "UPDATEPAY") {
 						$code = strtoupper($this->gen_uuid());

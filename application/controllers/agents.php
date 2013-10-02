@@ -12,6 +12,8 @@ class Agents extends CI_Controller {
 	function index() {
 		$this->load->model('agents_model');
 		$this->load->model('borrowers_model');
+		
+
 		$data['agents'] = $this->agents_model->get_agents();
 
 		if($data['agents']) {
@@ -26,6 +28,60 @@ class Agents extends CI_Controller {
 		$this->load->view('templates/sidepanel_view',$data);
 		$this->load->view('agents/home',$data);
 		$this->load->view('templates/footer_view');
+	}
+
+	function export() {
+		$this->load->model('agents_model');
+		$this->load->model('borrowers_model');
+		
+		$data['agents'] = $this->agents_model->get_agents();
+
+		ini_set('memory_limit', '64M');
+		$this->load->library('pdf');
+		$html = '<h1>Agents List</h1>';
+
+		$html .= '<table class="mytable">
+				<thead>
+					<tr>
+						<th>
+							ID
+						</th>
+						<th>
+							Name
+						</th>
+						<th>
+							Contact Number
+						</th>
+						<th>
+							Address
+						</th>
+					</tr>
+				</thead>
+				<tbody>';
+		if($data['agents']) {
+		foreach($data['agents'] as $row) {
+			$html .= '<tr>';
+			$html .= '<td>'.$row->id.'</td>';
+			$html .= '<td>'.$row->lastname.', '.$row->firstname.' '.$row->middlename.'</td>';
+			$html .= '<td>'.$row->contact.'</td>';
+			$html .= '<td>'.$row->address.'</td>';
+			$html .= '</tr>';
+		}
+		}
+
+		$html .= '	</tbody>
+				</table>
+
+				<style type="text/css">
+				.mytable {
+					width:100%;
+					font-family:arial;
+				}
+				</style>';
+
+		$pdf = $this->pdf->load();
+		$pdf->WriteHTML($html);
+		$pdf->Output();
 	}
 
 	function delete($id) {

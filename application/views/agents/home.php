@@ -9,6 +9,7 @@
 		<div id="content">
 			<button type="submit" id="search_toggle" class="btn"><i class="icon-search">&nbsp;</i> Search</button>
 			<button type="submit" id="toggle" class="btn"><i class="icon-plus">&nbsp;</i> Add Agent</button>
+			<a href="<?php echo base_url('agents/export'); ?>" class="btn" target="_blank"><i class="icon-download"></i> Export</a>
 
 			<div id="form_search" class="form_search">
 			<?php echo form_open('agents/search'); ?>			
