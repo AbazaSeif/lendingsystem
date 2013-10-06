@@ -6,6 +6,7 @@
 		</div>
 		<div id="content">
 			<br/>
+			<h3>Reset Password</h3>
 			<?php echo form_open('login/reset'.$this->uri->segment(3)); ?>
 				<?php echo form_password('dummypassword',NULL,'placeholder="Password"'); ?>
 				<?php echo form_error('dummypassword'); ?>
