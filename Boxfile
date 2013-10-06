@@ -1,0 +1,11 @@
+web1: #component type & number
+  name: web1            #component settings
+  shared_writable_dirs:
+    - var/cache
+  document_root: app
+  php_version: 5.3.23
+  php_extensions:
+    - mysql
+    - gd
+    - eaccelerator
+    - php_mbstring
