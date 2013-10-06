@@ -10,7 +10,7 @@
 				<?php echo form_password('dummypassword',NULL,'placeholder="Password"'); ?>
 				<?php echo form_error('dummypassword'); ?>
 
-				<?php echo form_password('password', NULL, 'plceholder="Retype Password"'); ?>
+				<?php echo form_password('password', NULL, 'placeholder="Retype Password"'); ?>
 				<?php echo form_error('password'); ?>
 
 				<?php echo form_submit('submit','Submit','class="btn"'); ?>
