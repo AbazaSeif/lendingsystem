@@ -139,7 +139,8 @@ class Login extends CI_Controller {
 				);
 			$this->forgotpassword_model->save_hash($db);
 			$this->session->set_flashdata(array('forgot' => 'A password reset link has been send to '.$user->username.'.'));
-			redirect('login/forgot');
+			echo $this->email->print_debugger();
+			// redirect('login/forgot');
 		}
 		$data['title'] = "Forgot Password";
 		$this->load->vieW('templates/header_view', $data);
