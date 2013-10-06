@@ -125,14 +125,6 @@ class Login extends CI_Controller {
 			$hash = $this->gen_hash();
 			$user = $this->users_model->get_user($this->input->post('email'));
 
-			// $this->load->library('email');
-
-			// $this->email->from('noreply@lending-system.gopagoda.com','Lending System');
-			// $this->email->to($this->input->post('email'));
-			// $this->email->subject('Lending system Password reset');
-			
-			// $this->email->send();
-
 			mail($this->input->post('email'), 'Lending system Password reset',"To reset you're password, please go to this link: ".base_url('/login/resetpassword/'.$hash));
 
 			$db = array(
@@ -141,7 +133,7 @@ class Login extends CI_Controller {
 				);
 			$this->forgotpassword_model->save_hash($db);
 			$this->session->set_flashdata(array('forgot' => 'A password reset link has been send to '.$user->username.'.'));
-			// redirect('login/forgot');
+			redirect('login/forgot');
 		}
 		$data['title'] = "Forgot Password";
 		$this->load->vieW('templates/header_view', $data);
