@@ -5,7 +5,4 @@ web1: #component type & number
   document_root: app
   php_version: 5.3.23
   php_extensions:
-    - mysql
-    - gd
-    - eaccelerator
     - mb_string
