@@ -1,4 +1,0 @@
-web1: #component type & number
-  name: lavenia
-  php_extensions:
-    - mbstring
