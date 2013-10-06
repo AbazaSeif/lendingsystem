@@ -8,4 +8,4 @@ web1: #component type & number
     - mysql
     - gd
     - eaccelerator
-    - php_mbstring
+    - mb_string
