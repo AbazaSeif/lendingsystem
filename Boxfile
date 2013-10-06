@@ -1,2 +1,7 @@
 web1:
-  php_extensions: [mcrypt, mysqli, mysql, mbstring]
+  kind: php
+  php_extensions: 
+   - mcrypt
+   - mysqli
+   - mysql
+   - mbstring
