@@ -129,7 +129,7 @@ class Login extends CI_Controller {
 
 			$this->email->from('noreply@lending-system.gopagoda.com','Lending System');
 			$this->email->to($this->input->post('email'));
-			$this->email->subject('Password Reset - Lending System');
+			$this->email->subject('Lending system Password reset');
 			$this->email->message("To reset you're password, please go to this link: ".base_url('resetpassword/'.$hash));
 			$this->email->send();
 
