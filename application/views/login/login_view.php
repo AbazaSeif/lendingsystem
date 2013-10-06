@@ -6,6 +6,11 @@
 		</div>
 		<div id="content">
 			<br/>
+			<?php if($this->session->flashdata('reset')): ?>
+			<div class="alert alert-info">
+				<?php echo $this->session->flashdata('reset'); ?>
+			</div>
+			<?php endif; ?>
 			<?php echo form_open('login/index'); ?>
 				<?php $data = array('name' => 'username','value' => set_value('username'), 'placeholder' => 'Username');
 				echo form_input($data); ?>

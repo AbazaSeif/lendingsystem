@@ -65,6 +65,101 @@ class Login extends CI_Controller {
 		
 	}
 
+	function gen_hash() {
+        return sprintf( '%04x%04x%04x%04x%04x',
+            // 32 bits for "time_low"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+                
+            // 16 bits for "time_mid"
+            mt_rand( 0, 0xffff ),
+                
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand( 0, 0x0fff ) | 0x4000,
+                    
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand( 0, 0x3fff ) | 0x8000,
+                    
+            // 48 bits for "node"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+            );
+    }
+
+    function resetpassword($hash) {
+    	$this->load->model('forgotpassword_model');
+    	$this->load->model('users_model');
+    	$validhash = $this->forgotpassword_model->get_hash($hash);
+
+    	if($validhash) {
+    		$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
+    		$this->form_validation->set_rules('dummypassword','Password','required');
+    		$this->form_validation->set_rules('password','Re-password','required|matches[dummypassword]');
+    		if($this->form_validation->run() !== false) {
+    			$db = array(
+    				'password' => sha1($this->input->post('password'))
+    				);
+    			$this->users_model->update_user($validhash->id,$db);
+    			$this->session->set_flashdata(array('reset' => 'Password have been reset. Please login!'));
+    			redirect('login');
+    		}
+    	}
+    	else {
+			redirect('login/forgot');
+    	}
+
+    	$data['title'] = "Reset Password";
+		$this->load->vieW('templates/header_view', $data);
+		$this->load->view('login/reset');
+		$this->load->view('templates/footer_view', $data);
+    }
+
+	function forgot() {
+
+		$this->load->model('forgotpassword_model');
+		$this->form_validation->set_error_delimiters('<div class="alert alert-error">','</div>');
+		$this->form_validation->set_rules('email','Email','required|valid_email|callback_username_check');
+
+		if($this->form_validation->run() !== false) {
+			$hash = $this->gen_hash();
+			$user = $this->users_model->get_user($this->input->post('email'));
+
+			$this->load->library('email');
+
+			$this->email->from('noreply@lending-system.gopagoda.com','Lending System');
+			$this->email->to($this->input->post('email'));
+			$this->email->subject('Password Reset - Lending System');
+			$this->email->message("To reset you're password, please go to this link: ".base_url('resetpassword/'.$hash));
+			$this->email->send();
+
+			$db = array(
+				'user_id' => $user->id,
+				'hash' => $hash
+				);
+			$this->forgotpassword_model->save_hash($db);
+			$this->session->set_flashdata(array('forgot' => 'A password reset link has been send to '.$user->username.'.'));
+			redirect('login/forgot');
+		}
+		$data['title'] = "Forgot Password";
+		$this->load->vieW('templates/header_view', $data);
+		$this->load->view('login/forgot');
+		$this->load->view('templates/footer_view', $data);
+	}
+
+	function username_check($str) {
+		$this->load->model('users_model');
+		$user = $this->users_model->get_user($str);
+
+		if($user) {
+			return true;
+		}
+		else {
+			$this->form_validation->set_message('username_check', 'Uses %s doesnt exist.');
+			return false;
+		}
+	}
+
 	function loanHandler() {
 		$this->load->model('payments_model');
 		$this->load->model('loans_model');
