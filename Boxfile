@@ -1,3 +1,2 @@
 web1: #component type & number
-  php_extensions:
-    - mbstring
+  php_extensions: [mbstring]
