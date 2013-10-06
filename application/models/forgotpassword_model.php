@@ -6,7 +6,7 @@ class Forgotpassword_model extends CI_model {
 	}
 
 	function get_hash($hash) {
-		$query = $this->db->where('hash' $hash)->get('forgotpassword');
+		$query = $this->db->where('hash', $hash)->get('forgotpassword');
 		if($query->num_rows() > 0) {
 			return $query->row();
 		}
