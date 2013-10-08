@@ -38,7 +38,9 @@ class Settings extends CI_Controller {
 				'message11' => $this->input->post('message11'),
 				'message12' => $this->input->post('message12'),
 				'message13' => $this->input->post('message13'),
-				'penalty' => $this->input->post('penalty')
+				'penalty' => $this->input->post('penalty'),
+				'interest' => $this->input->post('interest'),
+				'commision' => $this->input->post('commision')
 				);
 			$this->settings_model->update($db);
 			$data['info'] = "Settings Updated!";

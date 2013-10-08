@@ -242,7 +242,7 @@
 			<div class="tab-pane" id="rates">
 				<?php echo form_label('Loan Interest:','interest'); ?>
 				<div class="input-append">
-				  <?php echo form_input('commision',$settings->interest,'placeholder="Interest" id="appendedInput" class="input-mini"'); ?>
+				  <?php echo form_input('interest',$settings->interest,'placeholder="Interest" id="appendedInput" class="input-mini"'); ?>
 				  <span class="add-on">%</span>
 				</div>
 

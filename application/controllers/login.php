@@ -202,15 +202,18 @@ class Login extends CI_Controller {
 
 							// add no pay days
 							$borrower = $this->borrowers_model->get_borrower($loan->borrowerid);
+							if($borrower) {
+								$nopay = $borrower[0]->nopay;
+								$nopay++;
 
-							$nopay = $borrower[0]->nopay;
-							$nopay++;
+								$this->borrowers_model->update_payday($loan->borrowerid, $nopay);
 
-							$this->borrowers_model->update_payday($loan->borrowerid, $nopay);
+								if($nopay >= 5) {
+									// send sms to notify the borrower
+								}
 
-							if($nopay >= 5) {
-								// send sms to notify the borrower
 							}
+							
 						}
 				}
 			}
@@ -474,7 +477,7 @@ public function inbox() {
 							$db = array(
 								'amount' => $amount,
 								'borrowerid' => $borrowersid,
-								'date' => date('Y-m-d'),
+								'date' => date('Y-m-d', strtotime(date('Y-m-d'))),
 								'duedate' => date("Y-m-d",strtotime("+30 day")),
 								'status' => 1,
 								'amountdue' => $amount + ($amount * ($interest/100))
@@ -482,7 +485,7 @@ public function inbox() {
 
 							$loanid = $this->loans_model->add_loan($db);
 
-							$days = $this->generate_days(date('Y-m-d'));
+							$days = $this->generate_days(date('Y-m-d', strtotime(date('Y-m-d'))));
 							foreach($days as $day) {
 								$db = array(
 									'loanid' => $loanid,
@@ -501,7 +504,7 @@ public function inbox() {
 							$message = $settings->message8;
 							$this->sms_model->send($message, $msg->number);
 							$borrower = $this->borrowers_model->get_borrower($borrowersid);
-							$message = $getAll->message10;
+							$message = $settings->message10;
 							$this->sms_model->send($message, $borrower[0]->contact);
 							$this->pending_model->delete_pending($pending[0]->id);
 							$this->sms_model->delete($msg->id);

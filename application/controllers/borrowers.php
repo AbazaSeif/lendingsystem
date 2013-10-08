@@ -240,6 +240,8 @@ class Borrowers extends CI_Controller {
 		$this->load->view('templates/footer_view');
 	}
 
+	
+
 	function loan() {
 
 		$this->load->model('borrowers_model');

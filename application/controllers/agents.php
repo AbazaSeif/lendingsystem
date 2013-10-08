@@ -9,6 +9,17 @@ class Agents extends CI_Controller {
         }
 	}
 
+	function claim($id) {
+		$this->load->model('agents_model');
+
+
+		$data['title'] = "Claim Commision";
+		$this->load->view('templates/header_view');
+		$this->load->view('templates/sidepanel_view',$data);
+		$this->load->view('agents/claim', $data);
+		$this->load->view('templates/footer_view');
+	}
+
 	function index() {
 		$this->load->model('agents_model');
 		$this->load->model('borrowers_model');

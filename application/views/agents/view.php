@@ -19,6 +19,8 @@
 				</div>
 				<div class="span3">
 					<h3>Earned: <b>P</b><?php echo $total; ?></h3>
+					<br/>
+					<a href="#" class="btn"><i class="icon-circle-arrow-down"></i> Claim</a>
 				</div>
 			</div>
 
