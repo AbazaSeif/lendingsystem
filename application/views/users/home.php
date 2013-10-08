@@ -12,6 +12,13 @@
 			<?php echo form_password('dummypassword',NULL,'placeholder="Password"'); ?><br/>
 			<?php echo form_password('password',NULL,'placeholder="Repeat Password"'); ?><br/>
 
+			<?php if(validation_errors()): ?>
+			<div class="alert alert-error">
+			<?php echo validation_errors(); ?>
+			</div>
+			<?php endif; ?>
+			<?php echo form_close(); ?>
+
 			<strong>Access:</strong>
 			<div class="well well-small">
 			<label class="checkbox">
@@ -33,12 +40,7 @@
 			
 
 			<?php echo form_submit('save','Add User','class="btn btn-primary btn-block btn-large"'); ?>
-			<?php if(validation_errors()): ?>
-			<div class="alert alert-error">
-			<?php echo validation_errors(); ?>
-			</div>
-			<?php endif; ?>
-			<?php echo form_close(); ?>
+			
 
 			<?php if($this->session->flashdata('useradd')): ?>
 			<div class="alert alert-success">
