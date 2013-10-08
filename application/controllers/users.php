@@ -8,7 +8,7 @@ class Users extends CI_Controller {
 
 	function index() {
 
-		$this->form_validation->set_rules('username','Username','required|is_unique[users.username]');
+		$this->form_validation->set_rules('username','Username','required|is_unique[users.username]|valid_email');
 		$this->form_validation->set_rules('dummypassword','Password','required');
 		$this->form_validation->set_rules('password','Repeat password','required|matches[dummypassword]');
 
