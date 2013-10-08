@@ -21,7 +21,7 @@
 				echo form_password($data); ?>
 				<br/>
 				<?php echo form_error('password'); ?>
-				<a href="<?php echo base_url('login/forgot'); ?>" class="link">Forgot Password</a>
+				<a href="<?php echo base_url('login/forgot'); ?>" class="link">Forgot Password</a><br/>
 				<?php echo form_submit('login','Login','class="btn"'); ?>
 				<?php echo $error; ?>
 			<?php echo form_close(); ?>
