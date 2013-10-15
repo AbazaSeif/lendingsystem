@@ -70,17 +70,87 @@ class Borrowers extends CI_Controller {
 		$data['loans'] = $loans = $this->loans_model->get_all_loans();
 		$data['sum'] = $sum = $this->loans_model->get_total_loan();
 		$data['collected'] = $collected = $this->payments_model->get_total_payment();
+		$data['payments'] = $payments = $this->paymentys
 
-		echo '<pre>';
-		var_dump($loans);
-		echo '</pre>';
-		echo '<hr/>';
-		echo 'sum:';
-		var_dump($sum);
+		ini_set('memory_limit', '64M');
+		$this->load->library('pdf');
 
-		echo '<hr/>';
-		echo 'collected:';
-		var_dump($collected);
+		$html = '<h1>General Report</h1>';
+		$html .= '<table class="mytable">
+				<thead>
+					<tr>
+						<th>
+						Total Loan Released
+						</th>
+						<th>
+						Total Collected Amounts
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>'.$sum.'
+						</td>
+						<td>'.$collected.'
+						</td>
+					</tr>
+					</tbody>
+				</table>
+		';
+
+		$html .= '<h1>Collection Data</h1>';
+		$html .= '<table class="mytable">
+				<thead>
+					<tr>
+						<th>Borrower</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				<tbody>';
+
+		if($loans) {
+			foreach($loans as $loan) {
+				$html .= '<tr>
+				<td>'.$loan->blastname.', '.$loan->bfirstname.'
+				</td>
+				<td>
+					<b>P</b>'.$loan->amount.'
+				</td>
+				</tr>';
+			}
+		}
+
+		$html .= '</tbody>;
+				</table>';
+
+		$html .= '<h1>Payments Data</h1>';
+		$html .= '<table class="mytable">
+				<thead>
+					<tr>
+						<th>Loan ID</th>
+						<tr>Amount</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>';
+
+		if($payments) {
+			foreach($payments as $payment) {
+				$html .= '<tr>
+				<td>'.$payment->loanid.'
+				</td>
+				<td>
+					<b>P</b>'.$payment->amount.'
+				</td>
+				<td>
+					'.date("Y-m-d",strtotime($payment->date)).'
+				</td>
+				</tr>';
+			}
+		}
+
+		$html .= '</tbody>;
+				</table>';
 	}
 
 	function export() {
