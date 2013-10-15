@@ -75,7 +75,12 @@
 							<?php echo($payment->status == 3) ? '<i class="icon-remove"></i>' : ''; ?>
 						</td>
 					</tr>
-					<?php $total = $total + $payment->amount; ?>
+
+					<?php
+					if($payment->status == 0) {
+						$total = $total + $payment->amount;	
+					}
+					?>
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot>
