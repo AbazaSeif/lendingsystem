@@ -76,7 +76,7 @@ class Borrowers extends CI_Controller {
 		$this->load->library('pdf');
 
 		$html = '<h1>General Report</h1>';
-		$html .= '<table class="mytable">
+		$html .= '<table class="mytable" width="100%">
 				<thead>
 					<tr>
 						<th>
@@ -99,7 +99,7 @@ class Borrowers extends CI_Controller {
 		';
 
 		$html .= '<h1>Collection Data</h1>';
-		$html .= '<table class="mytable">
+		$html .= '<table class="mytable" width="100%">
 				<thead>
 					<tr>
 						<th>Borrower</th>
@@ -124,7 +124,7 @@ class Borrowers extends CI_Controller {
 				</table>';
 
 		$html .= '<h1>Payments Data</h1>';
-		$html .= '<table class="mytable">
+		$html .= '<table class="mytable" width="100%">
 				<thead>
 					<tr>
 						<th>Loan ID</th>
