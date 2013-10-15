@@ -70,7 +70,7 @@ class Borrowers extends CI_Controller {
 		$data['loans'] = $loans = $this->loans_model->get_all_loans();
 		$data['sum'] = $sum = $this->loans_model->get_total_loan();
 		$data['collected'] = $collected = $this->payments_model->get_total_payment();
-		$data['payments'] = $payments = $this->paymentys
+		$data['payments'] = $payments = $this->paymentys_model->get_all_paid();
 
 		ini_set('memory_limit', '64M');
 		$this->load->library('pdf');
