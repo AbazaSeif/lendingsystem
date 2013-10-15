@@ -89,9 +89,9 @@ class Borrowers extends CI_Controller {
 					</thead>
 					<tbody>
 					<tr>
-						<td>'.$sum[0]->amount.'
+						<td align="center"> P'.$sum[0]->amount.'
 						</td>
-						<td>'.$collected[0]->amount.'
+						<td align="center"> P'.$collected[0]->amount.'
 						</td>
 					</tr>
 					</tbody>
@@ -111,9 +111,9 @@ class Borrowers extends CI_Controller {
 		if($loans) {
 			foreach($loans as $loan) {
 				$html .= '<tr>
-				<td>'.$loan->blastname.', '.$loan->bfirstname.'
+				<td align="center">'.$loan->blastname.', '.$loan->bfirstname.'
 				</td>
-				<td>
+				<td align="center">
 					<b>P</b>'.$loan->amount.'
 				</td>
 				</tr>';
@@ -128,7 +128,7 @@ class Borrowers extends CI_Controller {
 				<thead>
 					<tr>
 						<th>Loan ID</th>
-						<tr>Amount</th>
+						<th>Amount</th>
 						<th>Date</th>
 					</tr>
 				</thead>
@@ -137,12 +137,12 @@ class Borrowers extends CI_Controller {
 		if($payments) {
 			foreach($payments as $payment) {
 				$html .= '<tr>
-				<td>'.$payment->loanid.'
+				<td align="center">'.$payment->loanid.'
 				</td>
-				<td>
+				<td align="center">
 					<b>P</b>'.$payment->amount.'
 				</td>
-				<td>
+				<td align="center">
 					'.date("Y-m-d",strtotime($payment->date)).'
 				</td>
 				</tr>';
