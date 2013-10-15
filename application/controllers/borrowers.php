@@ -98,7 +98,7 @@ class Borrowers extends CI_Controller {
 				</table>
 		';
 
-		$html .= '<h1>Collection Data</h1>';
+		$html .= '<h1>Loan Data</h1>';
 		$html .= '<table class="mytable" width="100%">
 				<thead>
 					<tr>
