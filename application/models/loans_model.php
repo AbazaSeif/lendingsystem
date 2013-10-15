@@ -57,6 +57,11 @@ class Loans_model extends CI_Model {
 		}
 	}
 
+	function get_total_loan() {
+		$query = $this->db->select_sum('amount')->get('loans');
+		return $query->result();
+	}
+
 	function get_all_loans() {
 		$select = array(
 			'loans.*',

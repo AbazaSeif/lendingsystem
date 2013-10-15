@@ -61,6 +61,27 @@ class Borrowers extends CI_Controller {
 		$this->load->view('templates/footer_view');
 	}
 
+	function stats() {
+		$this->load->model('borrowers_model');
+		$this->load->model('loans_model');
+		$this->load->model('agents_model');
+		$this->load->model('payments_model');
+
+		$data['loans'] = $loans = $this->loans_model->get_all_loans();
+		$data['sum'] = $sum = $this->loans_model->get_total_loan();
+		$data['collected'] = $collected = $this->payments_model->get_total_payment();
+
+		echo '<pre>';
+		var_dump($loans);
+		echo '</pre>';
+
+		echo 'sum:';
+		var_dump($sum);
+
+		echo 'collected:';
+		var_dump($collected);
+	}
+
 	function export() {
 		$this->load->model('borrowers_model');
 		

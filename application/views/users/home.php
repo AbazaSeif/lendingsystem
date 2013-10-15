@@ -17,7 +17,7 @@
 			<?php echo validation_errors(); ?>
 			</div>
 			<?php endif; ?>
-			<?php echo form_close(); ?>
+			
 
 			<strong>Access:</strong>
 			<div class="well well-small">
@@ -40,7 +40,7 @@
 			
 
 			<?php echo form_submit('save','Add User','class="btn btn-primary btn-block btn-large"'); ?>
-			
+			<?php echo form_close(); ?>
 
 			<?php if($this->session->flashdata('useradd')): ?>
 			<div class="alert alert-success">

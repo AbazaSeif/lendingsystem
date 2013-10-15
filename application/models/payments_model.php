@@ -24,6 +24,11 @@ class Payments_model extends CI_Model {
 		}
 	}
 
+	function get_total_payment() {
+		$query = $this->db->where('status', 1)->or_where('status', 3)->select_sum('amount');
+		return $query->result();
+	}
+
 	function get_past_unpaid($id) {
 		$db = $this->db->where('loanid',$id)->where('date <=', date('Y-m-d'))->where('status', 0)->get('payments');
 		if($db->num_rows() > 0) {
