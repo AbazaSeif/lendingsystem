@@ -13,6 +13,7 @@
 			<button type="submit" id="loan_toggle" class="btn"><i class="icon-plus">&nbsp;</i>Loan</button>
 			<button type="submit" id="payment_toggle" class="btn"><i class="icon-plus">&nbsp;</i> Payment</button>
 			<a href="<?php echo base_url('borrowers/export'); ?>" class="btn" target="_blank"><i class="icon-download"></i> Export</a>
+			<a href="<?php echo base_url('borrowers/stats'); ?>" class="btn" target="_blank"><i class="icon-download"></i> Overall Stats</a>
 			</div>
 
 
