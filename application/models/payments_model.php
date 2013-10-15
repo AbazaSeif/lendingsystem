@@ -25,7 +25,7 @@ class Payments_model extends CI_Model {
 	}
 
 	function get_total_payment() {
-		$query = $this->db->where('status', 1)->select_sum('amount')->get('payments');
+		$query = $this->db->where('status', 1)->or_where('status',3)->select_sum('amount')->get('payments');
 		return $query->result();
 	}
 
