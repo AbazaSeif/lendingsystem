@@ -74,10 +74,11 @@ class Borrowers extends CI_Controller {
 		echo '<pre>';
 		var_dump($loans);
 		echo '</pre>';
-
+		echo '<hr/>';
 		echo 'sum:';
 		var_dump($sum);
 
+		echo '<hr/>';
 		echo 'collected:';
 		var_dump($collected);
 	}
