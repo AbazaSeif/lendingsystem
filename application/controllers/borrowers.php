@@ -151,6 +151,10 @@ class Borrowers extends CI_Controller {
 
 		$html .= '</tbody>;
 				</table>';
+
+		$pdf = $this->pdf->load();
+		$pdf->WriteHTML($html);
+		$pdf->Output();
 	}
 
 	function export() {
