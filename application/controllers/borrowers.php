@@ -89,9 +89,9 @@ class Borrowers extends CI_Controller {
 					</thead>
 					<tbody>
 					<tr>
-						<td>'.$sum->amount.'
+						<td>'.$sum[0]->amount.'
 						</td>
-						<td>'.$collected->amount.'
+						<td>'.$collected[0]->amount.'
 						</td>
 					</tr>
 					</tbody>
