@@ -100,7 +100,7 @@ class Login extends CI_Controller {
     			$db = array(
     				'password' => sha1($this->input->post('password'))
     				);
-    			$this->users_model->update_user($validhash->id,$db);
+    			$this->users_model->update_user($validhash->user_id,$db);
     			$this->session->set_flashdata(array('reset' => 'Password have been reset. Please login!'));
     			redirect('login');
     		}
