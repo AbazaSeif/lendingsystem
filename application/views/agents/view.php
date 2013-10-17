@@ -118,10 +118,10 @@
 						<?php echo $loan->blastname; ?>, <?php echo $loan->bfirstname; ?>, <?php echo $loan->bmiddlename; ?>
 					</td>
 					<td>
-						<b>P</b><?php echo $loan->amount; ?>
+						<b>P</b><?php echo number_format($loan->amount); ?>
 					</td>
 					<td>
-						<b>P</b><?php echo $loan->amountdue; ?>
+						<b>P</b><?php echo number_format($loan->amountdue); ?>
 					</td>
 					<td>
 						<?php echo $loan->duedate; ?>

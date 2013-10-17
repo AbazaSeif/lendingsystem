@@ -257,7 +257,7 @@
 							<?php echo $row->blastname; ?>, <?php echo $row->bfirstname; ?>
 						</td>
 						<td>
-							<b>P</b><?php echo $row->amount; ?>
+							<b>P</b><?php echo number_format($row->amount); ?>
 						</td>
 						<td>
 							<b>P</b><?php echo round($row->amountdue/30,2,PHP_ROUND_HALF_UP); ?>

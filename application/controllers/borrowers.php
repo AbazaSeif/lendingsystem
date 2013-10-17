@@ -347,7 +347,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('payments_model');
 		$inte = $this->settings_model->get_all();
 		$interest = $inte->interest;
-		$this->form_validation->set_rules('amount','Amount');
+		$this->form_validation->set_rules('amount','Amount','required|less_than[200000]');
 		$this->form_validation->set_rules('borrower','Borrower','required');
 
 		if($this->form_validation->run() !== FALSE) {
@@ -623,7 +623,7 @@ public function inbox() {
 
 						$am = explode("/", $command);
 						$amount = $am[1];
-						$message = "Loan registration for borrower id: ".$id." amount: ".$amount.". Reply ".$code." to confirm.";
+						$message = "Loan registration for borrower id: ".$id." amount: ".number_format($amount).". Reply ".$code." to confirm.";
 						$this->sms_model->send($message, $msg->number);
 						$data = array(
 							'code' => $code,

@@ -68,7 +68,7 @@
 							<?php if(date('Y-m-d', strtotime($payment->date)) == date('Y-m-d')) echo '<strong>'; ?><?php echo date("M d Y",strtotime($payment->date)); ?><?php if(date('Y-m-d', strtotime($payment->date)) == date('Y-m-d')) echo '</strong>'; ?>
 						</td>
 						<td>
-							<strong>P</strong> <?php echo $payment->amount; ?>
+							<strong>P</strong> <?php echo number_format($payment->amount); ?>
 						</td>
 						<td>
 							<?php echo($payment->status == 1) ? '<i class="icon-ok"></i>' : ''; ?>
@@ -89,7 +89,7 @@
 							<strong>Total:</strong>
 						</td>
 						<td>
-							<strong>P</strong> <?php echo $total; ?>
+							<strong>P</strong> <?php echo number_format($total); ?>
 						</td>
 						<td>
 						</td>
@@ -125,7 +125,7 @@
 						<b><?php echo $row->id; ?></b>
 					</td>
 					<td>
-						<b>P</b> <?php echo $row->amount; ?>
+						<b>P</b> <?php echo number_format($row->amount); ?>
 					</td>
 					<td>
 						<?php echo $row->date; ?>
