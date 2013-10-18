@@ -347,7 +347,7 @@ class Borrowers extends CI_Controller {
 		$this->load->model('payments_model');
 		$inte = $this->settings_model->get_all();
 		$interest = $inte->interest;
-		$this->form_validation->set_rules('amount','Amount','required|less_than[200000]');
+		$this->form_validation->set_rules('amount','Amount','required|less_than[200000]|greater_than[999]|integer');
 		$this->form_validation->set_rules('borrower','Borrower','required');
 
 		if($this->form_validation->run() !== FALSE) {
